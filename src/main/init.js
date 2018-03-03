@@ -12,4 +12,7 @@ app.setPath(
     '../',
     isDev ? 'muon' : productName))
 
+// disable sandbox like electron
+app.commandLine.appendSwitch('no-sandbox')
+
 isDev && (global.electron = require('electron'))
