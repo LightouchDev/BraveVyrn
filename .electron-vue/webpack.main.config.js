@@ -43,6 +43,21 @@ let mainConfig = {
     __dirname: process.env.NODE_ENV !== 'production',
     __filename: process.env.NODE_ENV !== 'production'
   },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        parallel: true,
+        uglifyOptions: {
+          ecma: 8,
+          compress : {
+            passes: 4,
+            toplevel: true,
+            collapse_vars: false
+          }
+        }
+      })
+    ]
+  },
   output: {
     filename: '[name].js',
     libraryTarget: 'commonjs2',
