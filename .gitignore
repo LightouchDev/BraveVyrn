@@ -1,0 +1,14 @@
+.DS_Store
+dist/muon/*
+dist/web/*
+build/*
+!build/icons
+coverage
+node_modules/
+node_modules_*/
+npm-debug.log
+npm-debug.log.*
+thumbs.db
+!.gitkeep
+tools/*/yarn.lock
+tools/dump/*.bat
