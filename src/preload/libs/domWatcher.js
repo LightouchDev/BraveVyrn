@@ -81,7 +81,7 @@ function bruteWatcher () {
 // append css to head
 const scrollBarStyle = document.createElement('style')
 scrollBarStyle.setAttribute('type', 'text/css')
-scrollBarStyle.textContent += '::-webkit-scrollbar{display:none}body{cursor:default}[class*=btn-]{cursor:pointer}'
+scrollBarStyle.textContent += '::-webkit-scrollbar{display:none}body{cursor:default;image-rendering:-webkit-optimize-contrast}[class*=btn-]{cursor:pointer}'
 
 // Initial a watcher to get head ready
 const htmlWatcher = new window.MutationObserver(() => {
