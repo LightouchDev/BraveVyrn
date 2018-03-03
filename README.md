@@ -5,7 +5,7 @@
 **PS: It's not recommended using this program due to [EULA](#disclaimer).**
 
 <!-- [![Travis Build Status](https://travis-ci.org/LightouchDev/BraveVyrn.svg?branch=master)](https://travis-ci.org/LightouchDev/BraveVyrn) -->
-[![CircleCI](https://circleci.com/gh/LightouchDev/BraveVyrn.svg?style=shield)](https://circleci.com/gh/LightouchDev/BraveVyrn) [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/d77hk0cun4h5iw3n?svg=true)](https://ci.appveyor.com/project/MiauLightouch/bravevyrn) [![Bitrise Build Status](https://www.bitrise.io/app/7295fbc20a35511f/status.svg?token=gabvHK_3ltZM2xNoDVmGGg&branch=master)](https://www.bitrise.io/app/7295fbc20a35511f) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/LightouchDev/BraveVyrn/blob/master/LICENSE)
+[![CircleCI](https://circleci.com/gh/LightouchDev/BraveVyrn.svg?style=shield)](https://circleci.com/gh/LightouchDev/BraveVyrn) [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/y697va7p5m024ulh?svg=true)](https://ci.appveyor.com/project/MiauLightouch/bravevyrn) [![Bitrise Build Status](https://www.bitrise.io/app/29e9934c359b832e/status.svg?token=uHWH5DZG81fhed1QwDZ1pg&branch=master)](https://www.bitrise.io/app/29e9934c359b832e) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/LightouchDev/BraveVyrn/blob/master/LICENSE)
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
@@ -13,11 +13,9 @@
 
 ## Disclaimer
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-
 quote from official EULA:
 
-![EULA](eula.PNG)
+![EULA](eula.png)
 
 ## Feature
 
