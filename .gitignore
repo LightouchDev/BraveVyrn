@@ -12,3 +12,4 @@ thumbs.db
 !.gitkeep
 tools/*/yarn.lock
 tools/dump/*.bat
+yarn-error.log
