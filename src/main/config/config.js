@@ -9,11 +9,10 @@ import { isUndefined } from 'lodash'
 import i18n from '../../i18n'
 import { err, isDev, log, productName } from '../../utils'
 
-// ensure it'ss in right path
+// ensure it's in right path
 const configPath = path.join(
   app.getPath('userData'),
-  '../',
-  isDev ? 'muon' : productName,
+  isDev ? '.' : `../${productName}`,
   `${productName}.json`)
 
 const defaults = {
