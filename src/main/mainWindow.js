@@ -65,7 +65,7 @@ function serviceInit () {
   process.on('toHostView', (args) =>
     mainWindow.webContents.send(...args))
 
-  app.on('HostReload', () => mainWindow.webContents.reload())
+  app.on('HostReload', () => mainWindow.webContents.reloadIgnoringCache())
 }
 
 function startup () {
