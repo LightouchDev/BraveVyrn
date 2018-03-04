@@ -27,7 +27,7 @@ process.on('add-new-contents', (e, source, newTab, disposition, size, userGestur
       newTab.isDestroyed() || newTab.emit('close')
     })
     popup.loadURL(`chrome://brave/${rootPath}/static/popup.html?guestInstanceId=${newTab.guestInstanceId}&isDev=${isDev}`)
-    isDev && popup.webContents.openDevTools()
+    isDev && popup.webContents.openDevTools({ mode: 'detach' })
 
     newTab.once('close', () => {
       popup = null
@@ -46,5 +46,5 @@ ipcMain.on('PopupNavigation', (event, url) => {
   }
   url = encodeURIComponent(url)
   popup.loadURL(`chrome://brave/${rootPath}/static/popup.html?watcher=true&isDev=${isDev}&url=${url}`)
-  isDev && popup.webContents.openDevTools()
+  isDev && popup.webContents.openDevTools({ mode: 'detach' })
 })
