@@ -4,6 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import { ipcMain, webContents, session } from 'electron'
 import { extID, getRandomInt, isDev, log, rootPath, site } from '../utils'
+import { getState } from './store'
 
 function updatePreload () {
   preloadScript = fs.readFileSync(path.join(rootPath, 'preload.js'), 'utf8')
@@ -23,7 +24,7 @@ function preloadInject (content, callback) {
 
 // setup gameView when changed
 function setup (content) {
-  global.gameView = content
+  isDev && (global.gameView = content)
   content.on('did-navigate', () =>
     preloadInject(content, () =>
       content.send('hostLog', ['preload executed'])))
@@ -47,7 +48,7 @@ require('get-port')({
   })
   io.on('connection', (client) => {
     socket = client
-    global.socket = client
+    isDev && (global.socket = client)
 
     // redirect to Main process ipc channel
     client.on('toMain', ([ channel, ...args ]) =>
@@ -55,7 +56,7 @@ require('get-port')({
 
     // redirect to Renderer process ipc channel
     client.on('toHostView', (args) =>
-      global.mainWindow.webContents.send(...args))
+      process.emit('toHostView', args))
   })
   // save port
   BVport = port
@@ -67,7 +68,7 @@ ipcMain.on('toGameView', (event, args) => socket.emit(...args))
  * ipc services
  */
 ipcMain.on('GameViewChanged', (event, tabId) => {
-  log('[GameViewHandler] Received tabID: %s', tabId)
+  log('[view] Received tabID: %s', tabId)
   gameView = webContents.fromTabID(tabId)
   isDev && gameView.openDevTools({ mode: 'detach' })
   setup(gameView)
@@ -81,8 +82,8 @@ ipcMain.once('GameViewChanged', () => {
   const regex = new RegExp(`${site}/.+/purchase_jssdk`)
   function filter (details, callback) {
     callback(reply)
-    if (regex.test(details.url) && !global.state.GameView.subOpen) {
-      log('purchase request detected')
+    if (regex.test(details.url) && !getState().GameView.subOpen) {
+      log('[view] purchase request detected')
       gameView.executeScriptInTab(
         extID,
         'Game.submenu.mainView.switchCurrent(Game.submenu.mainView.state.current)',

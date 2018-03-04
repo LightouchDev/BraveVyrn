@@ -20,7 +20,6 @@ process.on('window-alert', (webContents, extraData, title, message, defaultPromp
     buttons: [ i18n.t('common.ok') ],
     message
   }, (response) => {
-    console.log('response is', response)
     muonCb(false, '', false)
   })
 })
@@ -32,7 +31,6 @@ process.on('window-confirm', (webContents, extraData, title, message, defaultPro
     buttons: [ i18n.t('common.ok'), i18n.t('common.cancel') ],
     message
   }, (response) => {
-    console.log('response is', response)
     muonCb(!response, '', false)
   })
 })

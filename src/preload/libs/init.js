@@ -3,7 +3,7 @@
 import { oneshotListener } from '../../utils'
 import { log } from './utils'
 
-log(`%s inject start!`, window.performance.now().toFixed(2))
+log(`%s inject start!`, performance.now().toFixed(2))
 
 // prevent alert popup when resize cause frequency reload
 const _alert = window.alert

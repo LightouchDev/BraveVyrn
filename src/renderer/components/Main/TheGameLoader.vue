@@ -36,8 +36,8 @@ export default {
     },
     windowWidth () {
       const windowWidth = Math.trunc(this.GameView.zoom * this.windowBase)
-      if (window.screen.availWidth < windowWidth && this.GameView.autoResize) {
-        this.calcZoom(window.screen.availWidth / this.windowBase)
+      if (screen.availWidth < windowWidth && this.GameView.autoResize) {
+        this.calcZoom(screen.availWidth / this.windowBase)
       }
       return windowWidth
     },

@@ -2,18 +2,16 @@
  * This file is used specifically and only for development.
  */
 
-import { updatePreload } from './gameViewHandler'
 import { app } from 'electron'
+import { updatePreload } from './gameViewHandler'
 
 const devSocket = require('socket.io-client')('http://localhost:9080')
 
-app.once('windowCreated', () => {
-  devSocket.on('preload', () => {
-    updatePreload()
-    global.mainWindow.webContents.reload()
-  })
-  devSocket.on('renderer', () => global.mainWindow.webContents.reload())
+devSocket.on('preload', () => {
+  updatePreload()
+  app.emit('HostReload')
 })
+devSocket.on('renderer', () => app.emit('HostReload'))
 
 // Require `main` process to boot app
 require('./index')

@@ -2,7 +2,9 @@
 
 import path from 'path'
 import { app } from 'electron'
-import { isDev, productName } from '../utils'
+import { isDev, log, productName } from '../utils'
+
+log('[app]  start!')
 
 // set userData path manually, muon is not using package name as path to save user data.
 app.setPath(
@@ -15,4 +17,5 @@ app.setPath(
 // disable sandbox like electron
 app.commandLine.appendSwitch('no-sandbox')
 
+// export electron api when dev
 isDev && (global.electron = require('electron'))

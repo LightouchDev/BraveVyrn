@@ -5,6 +5,10 @@ import { BrowserWindow, ipcMain } from 'electron'
 import { log, err } from '../utils'
 
 import modules from '../store/modules'
+import { apply, defaults, config } from './config'
+
+// link config Object
+modules.Config.state = config
 
 Vue.use(Vuex)
 
@@ -23,7 +27,7 @@ store.subscribe((mutation, state) => {
 
 ipcMain.on('vuex-connect', (event) => {
   let winId = BrowserWindow.fromWebContents(event.sender).id
-  log('vuex-connect: %s', winId)
+  log('[vuex] new vuex client: %s', winId)
 
   clients[winId] = event.sender
   event.returnValue = store.state
@@ -51,5 +55,19 @@ ipcMain.on('vuex-action', (event, args) => {
   }
 })
 
-global.state = store.state
-global.commit = store.commit
+/**
+ * for config
+ */
+// apply options when Config update
+store.subscribe(({type, payload}) => {
+  type === 'Config/UPDATE' && apply(payload)
+})
+
+// apply defaults
+ipcMain.on('ConfigDefaults', () => {
+  log('[conf] set to defaults')
+  store.commit('Config/UPDATE', defaults)
+})
+
+export default store
+export function getState () { return store.state }

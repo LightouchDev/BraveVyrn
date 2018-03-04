@@ -13,18 +13,15 @@ let popup
 
 ipcMain.on('TabOpenDevTools', (event, tabId) => webContents.fromTabID(tabId).openDevTools({ mode: 'detach' }))
 
-// open host DevTools
-ipcMain.on('HostViewOpenDevTools', () => global.mainWindow.openDevTools({ mode: 'detach' }))
-
 // handle 'window.open'
 process.on('add-new-contents', (e, source, newTab, disposition, size, userGesture) => {
   // ensure new tab is not attached
   if (!newTab.hostWebContents) {
-    log('here comes new tab: %s', newTab.id)
+    log('[tab]  here comes new tab: %s', newTab.id)
     // create new window for popups
     if (!popup || popup.isDestroyed()) {
       popup = new BrowserWindow(windowConfig)
-      log('open new popup window[%s]', popup.id)
+      log('[pop]  open new popup window[%s]', popup.id)
     }
     popup.once('close', () => {
       newTab.isDestroyed() || newTab.emit('close')
@@ -42,17 +39,12 @@ process.on('add-new-contents', (e, source, newTab, disposition, size, userGestur
 
 // handle outside navigation
 ipcMain.on('PopupNavigation', (event, url) => {
-  log('start popup navigation')
+  log('[pop]  start popup navigation')
   if (!popup || popup.isDestroyed()) {
     popup = new BrowserWindow(windowConfig)
-    log('open new popup window[%s]', popup.id)
+    log('[pop]  open new popup window[%s]', popup.id)
   }
   url = encodeURIComponent(url)
   popup.loadURL(`chrome://brave/${rootPath}/static/popup.html?watcher=true&isDev=${isDev}&url=${url}`)
   isDev && popup.webContents.openDevTools()
-})
-
-// redirect caught url to gameview
-ipcMain.on('PopupToGameView', (event, url) => {
-  global.mainWindow.loadURL(`chrome://brave/${rootPath}/index.html?url=${encodeURIComponent(url)}`)
 })

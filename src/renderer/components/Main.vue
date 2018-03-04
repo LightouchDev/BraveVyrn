@@ -26,30 +26,13 @@ body {
 
 <script>
 import { mapState } from 'vuex'
+import { isUndefined } from 'lodash'
 import TheGameLoader from './Main/TheGameLoader'
+import registerHotkey from '../libs/registerHotkey'
 
 // prevent unexpected drag and drop event
 document.addEventListener('dragover', event => event.preventDefault())
 document.addEventListener('drop', event => event.preventDefault())
-
-function lazyLoading () {
-  import(
-    /* webpackChunkName: "webContentsSetup" */
-    './Main/webContentsSetup'
-  )
-}
-
-// lazyLoading would be too lazy to register before dom ready
-switch (document.readyState) {
-  case 'loading':
-    // if it's really slow that page is still loading
-    window.addEventListener('DOMContentLoaded', lazyLoading)
-    break
-  case 'interactive':
-  case 'complete':
-    lazyLoading()
-    break
-}
 
 export default {
   name: 'Main',
@@ -88,6 +71,59 @@ export default {
         left: this.GameView.baseWidth + (this.HostView.dashOpen ? this.HostView.dashWidth : 0) + 'px'
       }
     }
+  },
+  // inject hotkey when dom mounted
+  mounted () {
+    const { ipcRenderer } = chrome
+
+    function gameViewDevTools () {
+      ipcRenderer.send('GameViewOpenDevTools')
+    }
+
+    function gameViewRefresh () {
+      this.$emit('GameViewReload')
+    }
+
+    function gameViewRefreshIgnoringCache () {
+      ipcRenderer.send('GameViewReloadIgnoringCache')
+    }
+
+    // Set hotkey
+    if (process.platform === 'darwin') {
+      // Command + Option + I: open game view DevTools on OSX
+      registerHotkey('Command+Option+I', gameViewDevTools)
+      // Command + R: refresh game view on OSX
+      registerHotkey('Command+R', gameViewRefresh)
+      // Command + Shift + R: refresh game view and ignores cache on OSX
+      registerHotkey('Command+Shift+R', gameViewRefreshIgnoringCache)
+    } else {
+      // F12: open game view DevTools
+      registerHotkey('F12', gameViewDevTools)
+      // F5: refresh game view
+      registerHotkey('F5', gameViewRefresh)
+      // Ctrl + R: refresh game view
+      registerHotkey('Ctrl+R', gameViewRefresh)
+      // Shift + F5: refresh game view and ignores cache
+      registerHotkey('Shift+F5', gameViewRefreshIgnoringCache)
+      // Ctrl + Shift + R: refresh game view and ignores cache
+      registerHotkey('Ctrl+Shift+R', gameViewRefreshIgnoringCache)
+    }
+
+    // Ctrl + Alt + I: open hostView DevTools
+    registerHotkey('Ctrl+Alt+I', () => ipcRenderer.send('HostViewOpenDevTools'))
+
+    // H: hide submenu
+    registerHotkey('H', () => {
+      const { subHide } = this.$store.state.Config
+      if (!subHide && this.GameView.subOpen) {
+        this.$emit('GameViewExecuteScript', 'Game.submenu.mainView.toggleSubmenu()')
+      }
+      this.$store.dispatch('Config/UPDATE', {
+        subHide: !subHide
+      })
+    })
+
+    registerHotkey.startListen()
   }
 }
 </script>

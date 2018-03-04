@@ -1,53 +1,24 @@
 'use strict'
 
 import './init'
-import './configHelper'
 import './store'
 import '../i18n'
+import './mainWindow'
 import './contentHandler'
 import './dialogHandler'
 import './gameViewHandler'
 
-import { app, BrowserWindow, session } from 'electron'
-import { extKey, extID, isDev, err, log, rootPath } from '../utils'
-import windowHandler from './windowHandler'
+import { app, session } from 'electron'
+import { extKey, extID, isDev, err, log } from '../utils'
+import contextMenu from './contextMenu'
 
 /**
  * Init app
  */
-log('App start!')
+app.on('ready', init)
+app.once('ready', () => log('[app]  ready!'))
 
-app.isReady()
-  ? createWindow()
-  : app.on('ready', createWindow)
-app.once('ready', () => log('App ready!'))
-
-/**
- * Window section
- */
-let mainWindow
-const isSecondInstance = app.makeSingleInstance(() => {
-  // Someone tried to run a second instance, we should focus our window.
-  if (mainWindow) {
-    if (mainWindow.isMinimized()) mainWindow.restore()
-    mainWindow.focus()
-  }
-})
-if (isSecondInstance) {
-  app.quit()
-}
-
-app.on('window-all-closed', () => {
-  app.quit()
-})
-
-app.on('activate', () => {
-  if (mainWindow === null) {
-    createWindow()
-  }
-})
-
-function createWindow () {
+function init () {
   /**
    * Load renderer script as extension
    */
@@ -70,41 +41,6 @@ function createWindow () {
     key: extKey
   }, 'component')
   session.defaultSession.extensions.enable(extID)
-
-  mainWindow = new BrowserWindow({
-    width: global.state.Config.width || 480,
-    height: global.state.Config.height || 870,
-    show: false,
-    useContentSize: true,
-    fullscreenable: false,
-    maximizable: false
-  })
-
-  if (global.state.Config.x >= 0 && global.state.Config.y >= 0) {
-    mainWindow.setPosition(global.state.Config.x, global.state.Config.y)
-  }
-
-  // show window and inject into it
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
-    isDev && mainWindow.webContents.openDevTools({ mode: 'detach' })
-    windowHandler(mainWindow)
-  })
-
-  // exit when main window closed
-  mainWindow.on('closed', () => app.quit())
-
-  mainWindow.loadURL(`chrome://brave/${rootPath}/index.html`)
-
-  /**
-   * Register mainWindow to global
-   */
-  global.mainWindow = mainWindow
-
-  /**
-   * Emit 'windowCreated' event
-   */
-  app.emit('windowCreated')
 }
 
 /**
@@ -112,7 +48,7 @@ function createWindow () {
  */
 
 app.on('web-contents-created', (event, content) => {
-  content.on('context-menu', require('./contextMenu').default(content))
+  content.on('context-menu', contextMenu(content))
 })
 
 /**

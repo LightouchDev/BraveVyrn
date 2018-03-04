@@ -47,8 +47,4 @@ ipcRenderer.on('vuex-apply-mutation', (event, {type, payload}) => {
 
 ipcRenderer.on('vuex-error', (event, error) => console.error(error))
 
-// export to global
-window.commit = store.commit
-window.state = store.state
-
 export default store

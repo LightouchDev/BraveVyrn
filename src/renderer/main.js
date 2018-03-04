@@ -5,12 +5,19 @@ import router from './router'
 import store from './store'
 import i18n from '../i18n'
 
-Vue.config.productionTip = false
+import { isDev } from '../utils'
 
-window.vue = new Vue({
+Vue.config.productionTip = isDev
+
+// init language
+i18n.locale = store.state.Config.language
+
+const vue = new Vue({
   components: { App },
   i18n,
   router,
   store,
   template: '<App/>'
 }).$mount('#app')
+
+isDev && (window.vue = vue)

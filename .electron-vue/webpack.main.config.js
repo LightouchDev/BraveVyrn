@@ -63,7 +63,11 @@ let mainConfig = {
     libraryTarget: 'commonjs2',
     path: path.join(__dirname, '../dist/muon')
   },
-  plugins: [],
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.PROCESS_TYPE': '"main"'
+    })
+  ],
   resolve: {
     extensions: ['.js', '.json', '.node']
   },

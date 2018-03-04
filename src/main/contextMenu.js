@@ -1,14 +1,14 @@
 'use strict'
 
 import { forEach } from 'lodash'
-
-const { Menu } = require('electron')
+import { Menu } from 'electron'
+import i18n from '../i18n'
 
 const itemText = {}
 forEach(['undo', 'redo', 'cut', 'copy', 'paste', 'selectAll'], item => {
   Object.defineProperty(itemText, item, {
     get () {
-      return global.i18n.t(`contextMenu.${item}`)
+      return i18n.t(`contextMenu.${item}`)
     }
   })
 })

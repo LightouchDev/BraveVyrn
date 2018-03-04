@@ -6,6 +6,8 @@
     @load-start="urlFilter"
     @did-navigate="log"
     @dom-ready="log"
+    @GameViewReload="reload"
+    @GameViewExecuteScript="execScript"
   />
 </template>
 
@@ -20,11 +22,12 @@ const { ipcRenderer } = chrome
 const { searchParams: params } = new URL(location.href)
 
 const hostLog = debug(`${productName}:page`)
-let gameView, preload
 
+/*
 function send (...args) {
   ipcRenderer.send('toGameView', args)
 }
+*/
 
 // IPC message from gameView
 ipcRenderer.on('hostLog', (event, args) => hostLog(...args))
@@ -37,26 +40,22 @@ export default {
     }
   },
   methods: {
+    execScript (scriptString) {
+      this.$el.executeScriptInTab(extID, scriptString, { mainWorld: true })
+    },
     // update current tabID
     init ({tabID}) {
       log('get tabID: %s', tabID)
       ipcRenderer.send('GameViewChanged', tabID)
-
-      /**
-       * init
-       */
-      gameView = document.querySelector('webview')
-      gameView.executeJavaScript = function (scriptString) {
-        gameView.executeScriptInTab(extID, scriptString, { mainWorld: true })
-      }
-      gameView.send = send
-      window.gameView = gameView
     },
     urlFilter ({ url, isMainFrame, isErrorPage }) {
       if(isMainFrame && !isErrorPage && url.indexOf(site)) {
-        gameView.stop()
+        this.$el.stop()
         ipcRenderer.send('PopupNavigation', url)
       }
+    },
+    reload () {
+      this.$el.reload()
     },
     log (event) {
       log(event.type)

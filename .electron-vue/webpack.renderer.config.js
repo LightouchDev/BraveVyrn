@@ -101,7 +101,10 @@ let rendererConfig = {
         to: path.join(__dirname, '../dist/muon/static'),
         ignore: ['.*']
       }
-    ])
+    ]),
+    new webpack.DefinePlugin({
+      'process.env.PROCESS_TYPE': '"renderer"'
+    })
   ],
   optimization: {
     minimizer: [

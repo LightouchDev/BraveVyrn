@@ -1,11 +1,11 @@
 'use strict'
 
-import { ipcMain, screen } from 'electron'
+import { app, BrowserWindow, ipcMain, screen } from 'electron'
 import { clone, isEqual } from 'lodash'
+import store, { getState } from './store'
+import { delayLength, isDev, log, rootPath } from '../utils'
 
-const delayLength = process.platform === 'darwin' ? 600 : 80
-
-let previousSize
+let mainWindow, previousSize
 let windowSize = {
   min: 320,
   max: 640,
@@ -13,9 +13,62 @@ let windowSize = {
   autoResize: false
 }
 
-function init (mainWindow) {
-  const { commit } = global
+function init () {
+  const { x, y, width, height } = getState().Config
 
+  mainWindow = new BrowserWindow({
+    width: width || 480,
+    height: height || 870,
+    show: false,
+    useContentSize: true,
+    fullscreenable: false,
+    maximizable: false
+  })
+
+  serviceInit()
+
+  if (x >= 0 && y >= 0) {
+    mainWindow.setPosition(x, y)
+  }
+
+  // show window and inject into it
+  mainWindow.on('ready-to-show', () => {
+    mainWindow.show()
+    isDev && mainWindow.webContents.openDevTools({ mode: 'detach' })
+    startup(mainWindow)
+  })
+
+  // exit when main window closed
+  mainWindow.on('closed', () => app.quit())
+
+  mainWindow.loadURL(`chrome://brave/${rootPath}/index.html`)
+
+  app.emit('WindowCreated')
+
+  isDev && (global.mainWindow = mainWindow)
+}
+
+function serviceInit () {
+  process.on('setAlwaysOnTop', (args) => {
+    mainWindow.setAlwaysOnTop(args)
+    log('[conf] alwaysOnTop is %s', mainWindow.isAlwaysOnTop())
+  })
+
+  // open DevTools
+  ipcMain.on('HostViewOpenDevTools', () => mainWindow.openDevTools({ mode: 'detach' }))
+
+  // redirect caught url to gameview
+  ipcMain.on('PopupToGameView', (event, url) => {
+    mainWindow.loadURL(`chrome://brave/${rootPath}/index.html?url=${encodeURIComponent(url)}`)
+  })
+
+  process.on('toHostView', (args) =>
+    mainWindow.webContents.send(...args))
+
+  app.on('HostReload', () => mainWindow.webContents.reload())
+}
+
+function startup () {
   const [ windowWidth, windowHeight ] = mainWindow.getSize()
   const [ contentWidth, contentHeight ] = mainWindow.getContentSize()
   const extraWidth = windowWidth - contentWidth
@@ -53,7 +106,7 @@ function init (mainWindow) {
     clearTimeout(delaySavePos)
     delaySavePos = setTimeout(() => {
       const [x, y] = mainWindow.getPosition()
-      commit('Config/UPDATE', { x, y })
+      store.commit('Config/UPDATE', { x, y })
     }, delayLength)
   })
   let delaySaveHeight = null
@@ -61,7 +114,7 @@ function init (mainWindow) {
     clearTimeout(delaySaveHeight)
     delaySaveHeight = setTimeout(() => {
       const [ width, height ] = mainWindow.getContentSize()
-      commit('Config/UPDATE', { width, height })
+      store.commit('Config/UPDATE', { width, height })
     }, delayLength)
   })
 
@@ -108,4 +161,28 @@ function init (mainWindow) {
   })
 }
 
-export default init
+/**
+ * App behavior
+ */
+const isSecondInstance = app.makeSingleInstance(() => {
+  // Someone tried to run a second instance, we should focus our window.
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore()
+    mainWindow.focus()
+  }
+})
+if (isSecondInstance) {
+  app.quit()
+}
+
+app.on('window-all-closed', () => {
+  app.quit()
+})
+
+app.on('activate', () => {
+  if (mainWindow === null) {
+    init()
+  }
+})
+
+app.on('ready', init)

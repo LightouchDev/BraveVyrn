@@ -211,9 +211,9 @@ export default {
     },
     setDefault () {
       if (confirm(this.$t('option.alert.setDefault'))) {
-        this.$store.dispatch('Config/DEFAULTS')
+        ipcRenderer.send('ConfigDefaults')
         this.$store.dispatch('HostView/UPDATE', { optionOpen: false })
-        window.gameView.reload()
+        this.$emit('GameViewReload')
       }
     },
     applyConfig () {
@@ -233,10 +233,11 @@ export default {
       }
       if (proxyString !== this.config.proxy) {
         this.config.proxy = proxyString
-        window.gameView.reload()
+        this.$store.dispatch('HostView/UPDATE', { optionOpen: false })
+        this.$emit('GameViewReload')
       }
       this.$store.commit('Config/UPDATE', this.config)
-      this.$store.dispatch('HostView/UPDATE', { optionOpen: false })
+      this.$i18n.locale = this.config.language
     }
   }
 }
