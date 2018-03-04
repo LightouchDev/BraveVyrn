@@ -23,6 +23,8 @@ install:
   - git reset --hard HEAD
   - yarn
   - node --version
+  - vcpkg install openssl zlib libuv
+  - vcpkg install openssl:x64-windows zlib:x64-windows libuv:x64-windows
 
 build_script:
   #- yarn test
