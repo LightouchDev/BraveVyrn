@@ -9,9 +9,20 @@ import { isDev } from '../utils'
 
 Vue.config.productionTip = isDev
 
+// create global event bus
+const EventBus = new Vue()
+Object.defineProperties(Vue.prototype, {
+  $bus: {
+    get: function () {
+      return EventBus
+    }
+  }
+})
+
 // init language
 i18n.locale = store.state.Config.language
 
+// create vue instance
 const vue = new Vue({
   components: { App },
   i18n,

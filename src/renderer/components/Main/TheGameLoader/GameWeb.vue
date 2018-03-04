@@ -6,8 +6,6 @@
     @load-start="urlFilter"
     @did-navigate="log"
     @dom-ready="log"
-    @GameViewReload="reload"
-    @GameViewExecuteScript="execScript"
   />
 </template>
 
@@ -60,6 +58,11 @@ export default {
     log (event) {
       log(event.type)
     }
+  },
+  mounted () {
+    // register global event
+    this.$bus.$on('GameViewReload', this.reload)
+    this.$bus.$on('GameViewExecuteScript', this.execScript)
   }
 }
 </script>

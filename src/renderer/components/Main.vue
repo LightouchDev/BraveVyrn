@@ -81,7 +81,7 @@ export default {
     }
 
     function gameViewRefresh () {
-      this.$emit('GameViewReload')
+      this.$bus.$emit('GameViewReload')
     }
 
     function gameViewRefreshIgnoringCache () {
@@ -116,7 +116,7 @@ export default {
     registerHotkey('H', () => {
       const { subHide } = this.$store.state.Config
       if (!subHide && this.GameView.subOpen) {
-        this.$emit('GameViewExecuteScript', 'Game.submenu.mainView.toggleSubmenu()')
+        this.$bus.$emit('GameViewExecuteScript', 'Game.submenu.mainView.toggleSubmenu()')
       }
       this.$store.dispatch('Config/UPDATE', {
         subHide: !subHide
