@@ -1,6 +1,7 @@
 'use strict'
 
 import { dialog } from 'electron'
+import { err } from '../utils'
 import i18n from '../i18n'
 
 // FIXME: using html dialog instead
@@ -37,6 +38,6 @@ process.on('window-confirm', (webContents, extraData, title, message, defaultPro
 
 process.on('window-prompt', (webContents, extraData, title, message, defaultPromptText,
   shouldDisplaySuppressCheckbox, isBeforeUnloadDialog, isReload, muonCb) => {
-  console.warn('window.prompt is not supported yet')
+  err('[muon] window.prompt is not supported yet')
   muonCb(null, '', false)
 })
