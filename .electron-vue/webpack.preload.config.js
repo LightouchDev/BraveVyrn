@@ -47,8 +47,7 @@ let preloadConfig = {
           mangle: {
             reserved: [
               'BVport',
-              'BVsalt',
-              'BVpopup',
+              'BVpath',
               'BVconfig'
             ]
           }

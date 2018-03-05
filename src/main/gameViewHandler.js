@@ -3,11 +3,12 @@
 import fs from 'fs'
 import path from 'path'
 import { ipcMain, webContents, session } from 'electron'
-import { extID, getRandomInt, isDev, log, noop, rootPath, site } from '../utils'
+import { err, extID, getRandomInt, isDev, log, noop, rootPath, site } from '../utils'
 import store from './store'
 
 function updatePreload () {
   preloadScript = fs.readFileSync(path.join(rootPath, 'preload.js'), 'utf8')
+  isDev && (global.preloadScript = preloadScript)
 }
 
 function preloadInject (content, callback) {
@@ -25,27 +26,37 @@ function preloadInject (content, callback) {
 // setup gameView when changed
 function setup (content) {
   isDev && (global.gameView = content)
-  content.on('did-navigate', () =>
-    preloadInject(content, () =>
-      content.send('hostLog', ['preload executed'])))
+  content.on('did-navigate', () => {
+    if (BVport) {
+      preloadInject(content, () =>
+        process.emit('toHostView', ['hostLog', ['preload executed']]))
+    } else {
+      injectRequired = true
+    }
+  })
 }
 
 /**
  * gameView preload script polyfill
  */
-let gameView, BVport, socket
+let gameView, BVport, socket, injectRequired
 
 let preloadScript = fs.readFileSync(path.join(rootPath, 'preload.js'), 'utf8')
+isDev && (global.preloadScript = preloadScript)
 
 // create socket.io to simulate ipc message, random path, port for security
 const BVpath = '/' + require('crypto').randomBytes(32).toString('hex')
+
 require('get-port')({
   port: getRandomInt(2048, 65535)
 }).then(port => {
+  // init socket.io server
   const io = require('socket.io')(port, {
     path: BVpath,
     serveClient: false
   })
+
+  // handle client connect
   io.on('connection', (client) => {
     socket = client
     isDev && (global.socket = client)
@@ -58,9 +69,17 @@ require('get-port')({
     client.on('toHostView', (args) =>
       process.emit('toHostView', args))
   })
+
   // save port
   BVport = port
-})
+
+  // execute preload script if required
+  if (injectRequired) {
+    preloadInject(gameView, () =>
+      process.emit('toHostView', ['hostLog', ['preload executed']]))
+    injectRequired = false
+  }
+}).catch(reason => err(reason))
 
 ipcMain.on('toGameView', (event, args) => socket.emit(...args))
 
