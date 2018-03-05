@@ -1,7 +1,14 @@
 'use strict'
 
-const socket = require('socket.io-client')(`http://localhost:${BVport}`, {
+import { oneshotListener } from '../../utils'
+
+let socket = require('socket.io-client')(`http://localhost:${BVport}`, {
   path: `${BVpath}`
+})
+
+oneshotListener(window, 'beforeunload', () => {
+  socket.disconnect()
+  socket = null
 })
 
 // simulate ipcRenderer method

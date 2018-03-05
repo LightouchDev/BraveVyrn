@@ -81,18 +81,21 @@ function bruteWatcher () {
 }
 
 // append css to head
-const scrollBarStyle = document.createElement('style')
+let scrollBarStyle = document.createElement('style')
 scrollBarStyle.setAttribute('type', 'text/css')
 scrollBarStyle.textContent += '::-webkit-scrollbar{display:none}body{cursor:default;image-rendering:-webkit-optimize-contrast}[class*=btn-]{cursor:pointer}'
 
 // Initial a watcher to get head ready
-const htmlWatcher = new MutationObserver(() => {
+let htmlWatcher = new MutationObserver(() => {
   log('document head searching...')
   if (document.head) {
     log('document head detected!')
     document.head.appendChild(scrollBarStyle)
     bruteWatcher()
     htmlWatcher.disconnect()
+    // force gc
+    htmlWatcher = null
+    scrollBarStyle = null
   }
 })
 htmlWatcher.observe(document, { childList: true, subtree: true })
