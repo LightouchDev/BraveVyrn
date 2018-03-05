@@ -3,7 +3,7 @@
 import fs from 'fs'
 import path from 'path'
 import { ipcMain, webContents, session } from 'electron'
-import { extID, getRandomInt, isDev, log, rootPath, site } from '../utils'
+import { extID, getRandomInt, isDev, log, noop, rootPath, site } from '../utils'
 import store from './store'
 
 function updatePreload () {
@@ -101,17 +101,10 @@ ipcMain.on('GameViewReloadIgnoringCache', () =>
   gameView.reloadIgnoringCache())
 
 ipcMain.on('GameViewClearCache', () =>
-  gameView.session.clearCache(() => {}))
+  gameView.session.clearCache(noop))
 
-ipcMain.on('GameViewClearStorageData', () => {
-  gameView.session.clearStorageData({ origin: 'https://www.dmm.com' })
-  gameView.session.clearStorageData({ origin: 'https://connect.mobage.jp' })
-  gameView.session.clearStorageData(
-    { origin: site },
-    () => {
-      gameView.loadURL(site)
-    }
-  )
-})
+ipcMain.on('GameViewClearStorageData', () =>
+  gameView.session.clearStorageData(() =>
+    gameView.loadURL(site)))
 
 export { updatePreload }

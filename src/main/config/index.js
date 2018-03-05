@@ -4,7 +4,7 @@ import { app, session } from 'electron'
 import { assign, forEach, isUndefined } from 'lodash'
 
 import i18n from '../../i18n'
-import { log, site } from '../../utils'
+import { log, noop, site } from '../../utils'
 import { defaults, config } from './config'
 
 const options = {
@@ -35,7 +35,7 @@ const rendererOptions = {
     session.defaultSession.setProxy({
       proxyRules: args,
       proxyBypassRules: '<local>'
-    }, () => {})
+    }, noop)
     session.defaultSession.resolveProxy(site, (proxyString) => {
       log('[conf] proxy resolve with: %s', proxyString)
     })
