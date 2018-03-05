@@ -18,10 +18,6 @@ jobs:
           - v1-dependencies-
 
       - run:
-          name: 'Install system deps'
-          command: 'sudo apt-get install openssl libssl-dev zlib1g zlib1g-dev libuv1 libuv1-dev'
-
-      - run:
           name: 'Install/Update node modules'
           command: 'yarn'
       

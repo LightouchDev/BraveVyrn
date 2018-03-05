@@ -14,9 +14,6 @@ workflows:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone: {}
     - cache-pull: {}
-    - brew-install:
-        inputs:
-        - packages: openssl zlib libuv
     - script:
         inputs:
         - content: |-
