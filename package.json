@@ -1,7 +1,7 @@
 {
   "name": "bravevyrn",
   "productName": "BraveVyrn",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "Miau Lightouch <miaulightouch@gmail.com>",
   "repository": "https://github.com/LightouchDev/BraveVyrn",
   "description": "BraveVyrn is a clean dedicated GBF loader.",
