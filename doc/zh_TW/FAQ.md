@@ -11,3 +11,4 @@
     * **注意**：並不保證以下參數皆有效
     * `--disable-direct-composition`
     * `--disable-gpu-compositing`
+    * `--disable-d3d11`

@@ -11,3 +11,4 @@
     * **NOTE**: no guarantee for these arguments would work.
     * `--disable-direct-composition`
     * `--disable-gpu-compositing`
+    * `--disable-d3d11`
