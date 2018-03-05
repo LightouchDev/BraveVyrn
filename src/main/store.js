@@ -70,4 +70,3 @@ ipcMain.on('ConfigDefaults', () => {
 })
 
 export default store
-export function getState () { return store.state }

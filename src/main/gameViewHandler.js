@@ -4,7 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import { ipcMain, webContents, session } from 'electron'
 import { extID, getRandomInt, isDev, log, rootPath, site } from '../utils'
-import { getState } from './store'
+import store from './store'
 
 function updatePreload () {
   preloadScript = fs.readFileSync(path.join(rootPath, 'preload.js'), 'utf8')
@@ -82,7 +82,7 @@ ipcMain.once('GameViewChanged', () => {
   const regex = new RegExp(`${site}/.+/purchase_jssdk`)
   function filter (details, callback) {
     callback(reply)
-    if (regex.test(details.url) && !getState().GameView.subOpen) {
+    if (regex.test(details.url) && !store.state.GameView.subOpen) {
       log('[view] purchase request detected')
       gameView.executeScriptInTab(
         extID,

@@ -2,7 +2,7 @@
 
 import { app, BrowserWindow, ipcMain, screen } from 'electron'
 import { clone, isEqual } from 'lodash'
-import store, { getState } from './store'
+import store from './store'
 import { delayLength, isDev, log, rootPath } from '../utils'
 
 let mainWindow, previousSize
@@ -14,7 +14,7 @@ let windowSize = {
 }
 
 function init () {
-  const { x, y, width, height } = getState().Config
+  const { x, y, width, height } = store.state.Config
 
   mainWindow = new BrowserWindow({
     width: width || 480,
