@@ -76,12 +76,15 @@ export default {
   mounted () {
     const { ipcRenderer } = chrome
 
+    // prevent 'this' target issue
+    const bus = this.$bus
+
     function gameViewDevTools () {
       ipcRenderer.send('GameViewOpenDevTools')
     }
 
     function gameViewRefresh () {
-      this.$bus.$emit('GameViewReload')
+      bus.$emit('GameViewReload')
     }
 
     function gameViewRefreshIgnoringCache () {
@@ -116,7 +119,7 @@ export default {
     registerHotkey('H', () => {
       const { subHide } = this.$store.state.Config
       if (!subHide && this.GameView.subOpen) {
-        this.$bus.$emit('GameViewExecuteScript', 'Game.submenu.mainView.toggleSubmenu()')
+        bus.$emit('GameViewExecuteScript', 'Game.submenu.mainView.toggleSubmenu()')
       }
       this.$store.dispatch('Config/UPDATE', {
         subHide: !subHide
