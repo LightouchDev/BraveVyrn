@@ -63,7 +63,7 @@ export default {
       zoom > 2 && (zoom = 2)
       zoom < 1 && (zoom = 1)
 
-      this.$store.dispatch('GameView/UPDATE', { zoom: zoom })
+      this.$store.dispatch('GameView/Update', { zoom: zoom })
     },
     setupWindow () {
       if (window.onresize) {

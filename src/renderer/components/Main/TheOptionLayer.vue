@@ -196,7 +196,7 @@ export default {
   },
   methods: {
     optionToggle () {
-      this.$store.dispatch('HostView/UPDATE', { optionOpen: !this.optionOpen })
+      this.$store.dispatch('HostView/Update', { optionOpen: !this.optionOpen })
     },
     cleanStorage (type) {
       if (confirm(this.$t(`option.alert.clearStorage.${type}`))) {
@@ -205,14 +205,14 @@ export default {
         }
         if (type !== 'cache') {
           ipcRenderer.send('GameViewClearStorageData')
-          this.$store.dispatch('HostView/UPDATE', { optionOpen: false })
+          this.$store.dispatch('HostView/Update', { optionOpen: false })
         }
       }
     },
     setDefault () {
       if (confirm(this.$t('option.alert.setDefault'))) {
         ipcRenderer.send('ConfigDefaults')
-        this.$store.dispatch('HostView/UPDATE', { optionOpen: false })
+        this.$store.dispatch('HostView/Update', { optionOpen: false })
         this.$emit('GameViewReload')
       }
     },
@@ -233,10 +233,10 @@ export default {
       }
       if (proxyString !== this.config.proxy) {
         this.config.proxy = proxyString
-        this.$store.dispatch('HostView/UPDATE', { optionOpen: false })
+        this.$store.dispatch('HostView/Update', { optionOpen: false })
         this.$emit('GameViewReload')
       }
-      this.$store.commit('Config/UPDATE', this.config)
+      this.$store.commit('Config/Update', this.config)
       this.$i18n.locale = this.config.language
     }
   }

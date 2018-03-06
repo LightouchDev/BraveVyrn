@@ -3,7 +3,7 @@ import { assign } from 'lodash'
 const state = {}
 
 const mutations = {
-  UPDATE (state, payload) {
+  Update (state, payload) {
     assign(state, payload)
   }
 }

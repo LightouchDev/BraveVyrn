@@ -60,13 +60,13 @@ ipcMain.on('vuex-action', (event, args) => {
  */
 // apply options when Config update
 store.subscribe(({type, payload}) => {
-  type === 'Config/UPDATE' && apply(payload)
+  type === 'Config/Update' && apply(payload)
 })
 
 // apply defaults
 ipcMain.on('ConfigDefaults', () => {
   log('[conf] set to defaults')
-  store.commit('Config/UPDATE', defaults)
+  store.commit('Config/Update', defaults)
 })
 
 export default store

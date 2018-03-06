@@ -106,7 +106,7 @@ function startup () {
     clearTimeout(delaySavePos)
     delaySavePos = setTimeout(() => {
       const [x, y] = mainWindow.getPosition()
-      store.commit('Config/UPDATE', { x, y })
+      store.commit('Config/Update', { x, y })
     }, delayLength)
   })
   let delaySaveHeight = null
@@ -114,7 +114,7 @@ function startup () {
     clearTimeout(delaySaveHeight)
     delaySaveHeight = setTimeout(() => {
       const [ width, height ] = mainWindow.getContentSize()
-      store.commit('Config/UPDATE', { width, height })
+      store.commit('Config/Update', { width, height })
     }, delayLength)
   })
 

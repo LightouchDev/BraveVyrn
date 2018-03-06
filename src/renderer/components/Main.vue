@@ -121,7 +121,7 @@ export default {
       if (!subHide && this.GameView.subOpen) {
         bus.$emit('GameViewExecuteScript', 'Game.submenu.mainView.toggleSubmenu()')
       }
-      this.$store.dispatch('Config/UPDATE', {
+      this.$store.dispatch('Config/Update', {
         subHide: !subHide
       })
     })

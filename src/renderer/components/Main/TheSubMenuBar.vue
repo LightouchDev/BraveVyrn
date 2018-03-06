@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     optionToggle () {
-      this.$store.dispatch('HostView/UPDATE', { optionOpen: !this.HostView.optionOpen })
+      this.$store.dispatch('HostView/Update', { optionOpen: !this.HostView.optionOpen })
     }
   }
 }

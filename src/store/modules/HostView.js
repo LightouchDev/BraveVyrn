@@ -7,14 +7,14 @@ const state = {
 }
 
 const mutations = {
-  UPDATE (state, payload) {
+  Update (state, payload) {
     assign(state, payload)
   }
 }
 
 const actions = {
-  UPDATE ({ commit }, payload) {
-    commit('UPDATE', payload)
+  Update ({ commit }, payload) {
+    commit('Update', payload)
   }
 }
 

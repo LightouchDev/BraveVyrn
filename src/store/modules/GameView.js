@@ -18,6 +18,7 @@ const defaults = {
   zoom: 1.5,
   maintenance: false,
   autoResize: false,
+  baseSize: 0,
   sidePadding: 0,
   unknownPadding: 0,
   subMenuWidth: 64 // ensure there always has submenu.
@@ -34,27 +35,26 @@ const preset = {
 const state = assign({
   isJssdkSideMenu: false,
   platformName: '',
-  baseSize: 704,
   baseWidth: 320,
   subOpen: false
 }, defaults)
 
 const mutations = {
-  UPDATE (state, payload) {
+  Update (state, payload) {
     assign(state, payload)
   },
-  PRESET (state) {
-    assign(state, preset)
+  UpdateWithPreset (state, payload) {
+    assign(state, defaults, payload, preset)
   },
-  RESET (state) {
-    assign(state, defaults)
+  NewUpdate (state, payload) {
+    assign(state, defaults, payload)
   }
 }
 
 const actions = {
   // async update for non-blocking mutation for component use
-  UPDATE ({ commit }, payload) {
-    commit('UPDATE', payload)
+  Update ({ commit }, payload) {
+    commit('Update', payload)
   }
 }
 
