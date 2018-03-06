@@ -13,3 +13,4 @@ thumbs.db
 tools/*/yarn.lock
 tools/dump/*.bat
 yarn-error.log
+.electron-vue/port.txt

@@ -4,6 +4,7 @@ process.env.NODE_ENV = 'development'
 
 const chalk = require('chalk')
 const electron = require('electron')
+const fs = require('fs')
 const path = require('path')
 const { spawn } = require('child_process')
 const webpack = require('webpack')
@@ -18,7 +19,10 @@ let manualRestart = false
 let socket
 
 const httpServer = require('http').createServer()
-httpServer.listen(9080, '127.0.0.1', () => {
+httpServer.listen(0, '127.0.0.1', () => {
+  const { port } = httpServer.address()
+  fs.writeFileSync(path.join(__dirname, 'port.txt'), port, 'utf8')
+
   const io = require('socket.io')(httpServer, {
     serveClient: false
   })
