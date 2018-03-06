@@ -23,7 +23,7 @@
   "build": {
     "productName": "BraveVyrn",
     "appId": "org.LightouchDev.BraveVyrn",
-    "muonVersion": "4.8.2",
+    "muonVersion": "5.1.3",
     "directories": {
       "output": "build"
     },
