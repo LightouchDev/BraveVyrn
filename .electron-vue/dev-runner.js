@@ -17,12 +17,16 @@ let manualRestart = false
 
 let socket
 
-const io = require('socket.io')(9080, {
-  serveClient: false
+const httpServer = require('http').createServer()
+httpServer.listen(9080, '127.0.0.1', () => {
+  const io = require('socket.io')(httpServer, {
+    serveClient: false
+  })
+  io.on('connection', (client) => {
+    socket = client
+  })
 })
-io.on('connection', (client) => {
-  socket = client
-})
+
 
 function logStats (proc, data) {
   let log = ''

@@ -16,12 +16,6 @@ export function oneshotListener (element, event, callback, useCapture) {
   }, useCapture)
 }
 
-export function getRandomInt (min, max) {
-  min = Math.ceil(min)
-  max = Math.floor(max)
-  return Math.floor(Math.random() * (max - min)) + min // The maximum is exclusive and the minimum is inclusive
-}
-
 export function noop () {}
 export const isDev = process.env.NODE_ENV === 'development'
 export const { productName } = require('../package.json')

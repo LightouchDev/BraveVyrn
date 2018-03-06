@@ -3,7 +3,7 @@
 import fs from 'fs'
 import path from 'path'
 import { ipcMain, webContents, session } from 'electron'
-import { err, extID, getRandomInt, isDev, log, noop, rootPath, site } from '../utils'
+import { err, extID, isDev, log, noop, rootPath, site } from '../utils'
 import store from './store'
 
 function updatePreload () {
@@ -31,6 +31,7 @@ function setup (content) {
       preloadInject(content, () =>
         process.emit('toHostView', ['hostLog', ['preload executed']]))
     } else {
+      // the flag that show we have inject pending but socket.io server is not ready.
       injectRequired = true
     }
   })
@@ -47,11 +48,12 @@ isDev && (global.preloadScript = preloadScript)
 // create socket.io to simulate ipc message, random path, port for security
 const BVpath = '/' + require('crypto').randomBytes(32).toString('hex')
 
-require('get-port')({
-  port: getRandomInt(2048, 65535)
-}).then(port => {
+const httpServer = require('http').createServer()
+
+// start http server listen
+httpServer.listen(0, '127.0.0.1', () => {
   // init socket.io server
-  const io = require('socket.io')(port, {
+  const io = require('socket.io')(httpServer, {
     path: BVpath,
     serveClient: false
   })
@@ -71,7 +73,7 @@ require('get-port')({
   })
 
   // save port
-  BVport = port
+  BVport = httpServer.address().port
 
   // execute preload script if required
   if (injectRequired) {
@@ -79,7 +81,11 @@ require('get-port')({
       process.emit('toHostView', ['hostLog', ['preload executed']]))
     injectRequired = false
   }
-}).catch(reason => err(reason))
+
+  log('[http] Socket.io listen on:\n  http://localhost:%s%s', BVport, BVpath)
+}).on('error', error =>
+  // handle error event
+  err('[http] Socket.io error: %s', error))
 
 ipcMain.on('toGameView', (event, args) => socket.emit(...args))
 
