@@ -60,6 +60,7 @@ httpServer.listen(0, '127.0.0.1', () => {
 
   // handle client connect
   io.on('connection', (client) => {
+    log('[http] Socket.io new client incoming: %s', client.id)
     socket = client
     isDev && (global.socket = client)
 
@@ -70,6 +71,9 @@ httpServer.listen(0, '127.0.0.1', () => {
     // redirect to Renderer process ipc channel
     client.on('toHostView', (args) =>
       process.emit('toHostView', args))
+
+    client.on('disconnect', (reason) =>
+      log('[http] Socket.io client "%s" disconnect: %s', client.id, reason))
   })
 
   // save port
@@ -83,6 +87,7 @@ httpServer.listen(0, '127.0.0.1', () => {
   }
 
   log('[http] Socket.io listen on:\n  http://localhost:%s%s', BVport, BVpath)
+  isDev && (global.io = io)
 }).on('error', error =>
   // handle error event
   err('[http] Socket.io error: %s', error))
