@@ -19,7 +19,7 @@ function extractViewInfo (content) {
     // Setup view when not log in
     if (Game.userId === 0 || Game.ua.platformName() === 'notlogin') {
       log('not login')
-      commit('GameView/NewUpdate', assign(result, {
+      commit('GameView/UpdateWithPreset', assign(result, {
         baseSize: Number(/^[ \t]+deviceRatio = window\.innerWidth \/ (\d+);$/m.exec(content)[1]),
         subOpen: false
       }))
@@ -54,7 +54,7 @@ function extractViewInfo (content) {
   }
   if (location.pathname === '/maintenance') {
     log('maintenance mode')
-    commit('GameView/NewUpdate', assign(result, {
+    commit('GameView/UpdateWithPreset', assign(result, {
       maintenance: true,
       autoResize: true,
       baseSize: Number(/^[ \t]+var deviceRatio = window\.innerWidth \/ (\d+);$/m.exec(content)[1])

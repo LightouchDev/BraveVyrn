@@ -18,16 +18,10 @@ const defaults = {
   zoom: 1.5,
   maintenance: false,
   autoResize: false,
-  baseSize: 0,
-  sidePadding: 0,
   unknownPadding: 0,
-  subMenuWidth: 64 // ensure there always has submenu.
-}
-
-const preset = {
   // hard-coded widths for current version: 2017-12-21(1513867784)
-  sidePadding: 64,
   baseSize: 704,
+  sidePadding: 64,
   subMenuWidth: 64
 }
 
@@ -44,9 +38,6 @@ const mutations = {
     assign(state, payload)
   },
   UpdateWithPreset (state, payload) {
-    assign(state, defaults, payload, preset)
-  },
-  NewUpdate (state, payload) {
     assign(state, defaults, payload)
   }
 }
