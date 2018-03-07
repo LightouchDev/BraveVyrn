@@ -16,7 +16,6 @@ module.exports = {
     chrome: true,
     BVport: true,
     BVpath: true,
-    BVpopup: true,
     BVconfig: true
   },
   plugins: [
