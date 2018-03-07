@@ -14,22 +14,18 @@
       const { searchParams: params } = new URL(location.href)
       const { ipcRenderer } = chrome
       const wv = document.querySelector('webview')
+
+      // close window gracefully
+      ipcRenderer.once('PopupClose', () =>
+        window.close())
+
       // close window if webContent destroyed.
-      wv.addEventListener('will-destroy', (e) => window.close())
-      wv.addEventListener('tab-id-changed', ({tabID}) => {
-        // open DevTools in development
-        if (params.get('isDev') === 'true') {
-          ipcRenderer.send('TabOpenDevTools', tabID)
-        }
-      })
-      // catch game url here, and close window super gracefully to prevent program crash
-      wv.addEventListener('did-navigate', ({url}) => {
-        // FIXME use utils.js to load site url value
-        if (url.indexOf('http://game.granbluefantasy.jp') !== -1) {
-          ipcRenderer.send('PopupToGameView', url)
-          window.close()
-        }
-      })
+      wv.addEventListener('will-destroy', () =>
+        window.close())
+
+      wv.addEventListener('tab-id-changed', ({ tabID }) =>
+        ipcRenderer.send('UpdatePopupView', tabID))
+
       window.addEventListener('DOMContentLoaded', () => {
         // binding webContent to <webview>
         if (params.get('guestInstanceId')) {

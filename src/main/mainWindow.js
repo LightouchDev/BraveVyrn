@@ -58,7 +58,7 @@ function serviceInit () {
   ipcMain.on('HostViewOpenDevTools', () => mainWindow.openDevTools({ mode: 'detach' }))
 
   // redirect caught url to gameview
-  ipcMain.on('PopupToGameView', (event, url) => {
+  process.on('PopupToGameView', (url) => {
     mainWindow.loadURL(`chrome://brave/${rootPath}/index.html?url=${encodeURIComponent(url)}`)
   })
 

@@ -1,7 +1,7 @@
 'use strict'
 
 import { BrowserWindow, ipcMain, webContents } from 'electron'
-import { isDev, log, rootPath } from '../utils'
+import { isDev, log, rootPath, site } from '../utils'
 
 const windowConfig = {
   width: 1024,
@@ -11,12 +11,29 @@ const windowConfig = {
 // only one popup allowed
 let popup
 
-ipcMain.on('TabOpenDevTools', (event, tabId) => webContents.fromTabID(tabId).openDevTools({ mode: 'detach' }))
+function checkURL (content, url) {
+  log('[pop]  caught pop url: %s', url)
+  if (url.indexOf(site) === 0) {
+    content.stop()
+    process.emit('PopupToGameView', url)
+    content.hostWebContents.send('PopupClose')
+    return true
+  }
+}
+
+ipcMain.on('UpdatePopupView', (event, tabId) => {
+  const content = webContents.fromTabID(tabId)
+
+  isDev && content.openDevTools({ mode: 'detach' })
+
+  checkURL(content, content.getURL()) ||
+    content.on('did-navigate', (event, url) => checkURL(content, url))
+})
 
 // handle 'window.open'
 process.on('add-new-contents', (e, source, newTab, disposition, size, userGesture) => {
   // ensure new tab is not attached
-  if (!newTab.hostWebContents) {
+  if (!newTab.hostWebContents && newTab.guestInstanceId > 0) {
     log('[tab]  here comes new tab: %s', newTab.id)
     // create new window for popups
     if (!popup || popup.isDestroyed()) {
@@ -26,7 +43,7 @@ process.on('add-new-contents', (e, source, newTab, disposition, size, userGestur
     popup.once('close', () => {
       newTab.isDestroyed() || newTab.emit('close')
     })
-    popup.loadURL(`chrome://brave/${rootPath}/static/popup.html?guestInstanceId=${newTab.guestInstanceId}&isDev=${isDev}`)
+    popup.loadURL(`chrome://brave/${rootPath}/static/popup.html?guestInstanceId=${newTab.guestInstanceId}`)
     isDev && popup.webContents.openDevTools({ mode: 'detach' })
 
     newTab.once('close', () => {
@@ -45,6 +62,6 @@ ipcMain.on('PopupNavigation', (event, url) => {
     log('[pop]  open new popup window[%s]', popup.id)
   }
   url = encodeURIComponent(url)
-  popup.loadURL(`chrome://brave/${rootPath}/static/popup.html?watcher=true&isDev=${isDev}&url=${url}`)
+  popup.loadURL(`chrome://brave/${rootPath}/static/popup.html?url=${url}`)
   isDev && popup.webContents.openDevTools({ mode: 'detach' })
 })
