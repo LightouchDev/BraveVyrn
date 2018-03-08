@@ -9,9 +9,9 @@ const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 let rendererConfig = {
-  devtool: '#cheap-module-eval-source-map',
   entry: {
     renderer: path.join(__dirname, '../src/renderer/main.js')
   },
@@ -41,15 +41,52 @@ let rendererConfig = {
           options: {
             loaders: {
               i18n: '@kazupon/vue-i18n-loader',
-              sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1&data=@import "./src/renderer/globals"',
-              scss: 'vue-style-loader!css-loader!sass-loader?data=@import "./src/renderer/globals";'
-            }
+              sass: ExtractTextPlugin.extract({
+                use: [
+                  {
+                    loader: 'css-loader',
+                    options: {
+                      minimize: process.env.NODE_ENV === 'production'
+                    }
+                  },
+                  {
+                    loader: 'sass-loader',
+                    options: {
+                      data: '@import "./src/renderer/globals";',
+                      indentedSyntax: true
+                    }
+                  }
+                ],
+                fallback: 'vue-style-loader'
+              }),
+              scss: ExtractTextPlugin.extract({
+                use: [
+                  {
+                    loader: 'css-loader',
+                    options: {
+                      minimize: process.env.NODE_ENV === 'production'
+                    }
+                  },
+                  {
+                    loader: 'sass-loader',
+                    options: {
+                      data: '@import "./src/renderer/globals";'
+                    }
+                  }
+                ],
+                fallback: 'vue-style-loader'
+              })
+            },
           }
         }
       }
     ]
   },
   plugins: [
+    new ExtractTextPlugin({
+      allChunks: true,
+      filename: 'style.css'
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, '../src/index.ejs'),
@@ -99,13 +136,6 @@ let rendererConfig = {
   },
   mode: process.env.NODE_ENV,
   target: 'web'
-}
-
-/**
- * Adjust rendererConfig for production settings
- */
-if (process.env.NODE_ENV === 'production') {
-  delete rendererConfig.devtool
 }
 
 module.exports = rendererConfig
