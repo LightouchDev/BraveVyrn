@@ -213,7 +213,7 @@ export default {
       if (confirm(this.$t('option.alert.setDefault'))) {
         ipcRenderer.send('ConfigDefaults')
         this.$store.dispatch('HostView/Update', { optionOpen: false })
-        this.$emit('GameViewReload')
+        this.$bus.$emit('GameViewReload')
       }
     },
     applyConfig () {
@@ -234,7 +234,7 @@ export default {
       if (proxyString !== this.config.proxy) {
         this.config.proxy = proxyString
         this.$store.dispatch('HostView/Update', { optionOpen: false })
-        this.$emit('GameViewReload')
+        this.$bus.$emit('GameViewReload')
       }
       this.$store.commit('Config/Update', this.config)
       this.$i18n.locale = this.config.language
