@@ -1,7 +1,8 @@
 'use strict'
 
 import { app, BrowserWindow, ipcMain, screen } from 'electron'
-import { clone, isEqual } from 'lodash'
+import clone from 'lodash/clone'
+import isEqual from 'lodash/isEqual'
 import store from './store'
 import { delayLength, isDev, log, rootPath } from '../utils'
 

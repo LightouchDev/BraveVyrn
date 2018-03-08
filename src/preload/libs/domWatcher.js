@@ -1,6 +1,6 @@
 'use strict'
 
-import { assign } from 'lodash'
+import assign from 'lodash/assign'
 import { commit, log } from './utils'
 
 function extractViewInfo (content) {

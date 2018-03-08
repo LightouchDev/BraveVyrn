@@ -1,7 +1,9 @@
 'use strict'
 
 import { app, session } from 'electron'
-import { assign, forEach, isUndefined } from 'lodash'
+import assign from 'lodash/assign'
+import forEach from 'lodash/forEach'
+import isUndefined from 'lodash/isUndefined'
 
 import i18n from '../../i18n'
 import { log, noop, site } from '../../utils'

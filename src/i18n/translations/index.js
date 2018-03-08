@@ -1,4 +1,4 @@
-import { forEach } from 'lodash'
+import forEach from 'lodash/forEach'
 /**
  * The file enables `@/i18n/index.js` to import all vue-i18n language
  * in a one-shot manner. There should not be any reason to edit this file.

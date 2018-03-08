@@ -4,7 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import locale from 'os-locale'
 import { app } from 'electron'
-import { isUndefined } from 'lodash'
+import isUndefined from 'lodash/isUndefined'
 
 import i18n from '../../i18n'
 import { err, isDev, log, productName } from '../../utils'

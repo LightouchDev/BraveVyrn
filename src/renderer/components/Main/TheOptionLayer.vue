@@ -164,7 +164,7 @@
 </template>
 
 <script>
-import { clone } from 'lodash'
+import clone from 'lodash/clone'
 import urlParser from 'url-parser'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import { faListAlt, faTimesCircle } from '@fortawesome/fontawesome-free-regular'

@@ -1,6 +1,6 @@
 'use strict'
 
-import { forEach } from 'lodash'
+import forEach from 'lodash/forEach'
 import { log } from '../../utils'
 
 const keyTable = {

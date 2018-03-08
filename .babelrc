@@ -12,7 +12,7 @@
     "main": {
       "presets": [
         ["env", {
-          "targets": { "node": 7 }
+            "targets": { "node": 7 }
         }],
         "stage-0"
       ]
@@ -34,5 +34,5 @@
       ]
     }
   },
-  "plugins": ["transform-runtime", "syntax-dynamic-import", "lodash"]
+  "plugins": ["transform-runtime", "syntax-dynamic-import"]
 }

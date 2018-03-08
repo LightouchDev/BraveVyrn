@@ -26,7 +26,7 @@ body {
 
 <script>
 import { mapState } from 'vuex'
-import { isUndefined } from 'lodash'
+import isUndefined from 'lodash/isUndefined'
 import TheGameLoader from './Main/TheGameLoader'
 import registerHotkey from '../libs/registerHotkey'
 
