@@ -256,9 +256,9 @@ export default {
     color: $standardWhite;
     text-shadow:
       -1px -1px 2px $standardBlack,
-      1px -1px 2px $standardBlack,
-      -1px 1px 2px $standardBlack,
-      1px 1px 2px $standardBlack;
+       1px -1px 2px $standardBlack,
+      -1px  1px 2px $standardBlack,
+       1px  1px 2px $standardBlack;
     background-color: rgba($standardBlack, 0.8);
     white-space: nowrap;
     position: absolute;

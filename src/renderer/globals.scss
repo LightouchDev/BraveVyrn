@@ -5,21 +5,16 @@ $standardBlack: #1f1f1f;
 
 @mixin setColor ($color) {
   background-color: $color;
-    text-shadow:
-      -1px -1px 2px $color,
-      1px -1px 2px $color,
-      -1px 1px 2px $color,
-      1px 1px 2px $color;
+  text-shadow:
+    -1px -1px 2px $color,
+     1px -1px 2px $color,
+    -1px  1px 2px $color,
+     1px  1px 2px $color;
   border-color: $color;
 }
 
 @mixin gradient-text($gradient, $bg : 'light') {
   @supports(mix-blend-mode: lighten) {
-    /*
-    display: inline-block;
-    position: relative;
-    */
-
     &::before {
       content: '';
       display: block;
