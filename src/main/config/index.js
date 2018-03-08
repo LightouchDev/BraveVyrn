@@ -1,5 +1,3 @@
-'use strict'
-
 import { app, session } from 'electron'
 import assign from 'lodash/assign'
 import forEach from 'lodash/forEach'

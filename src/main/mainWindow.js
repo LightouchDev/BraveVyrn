@@ -1,5 +1,3 @@
-'use strict'
-
 import { app, BrowserWindow, ipcMain, screen } from 'electron'
 import clone from 'lodash/clone'
 import isEqual from 'lodash/isEqual'

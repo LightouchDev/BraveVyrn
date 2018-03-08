@@ -1,5 +1,3 @@
-'use strict'
-
 import { oneshotListener, noop } from '../../utils'
 import { log } from './utils'
 

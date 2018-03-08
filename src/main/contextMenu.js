@@ -1,5 +1,3 @@
-'use strict'
-
 import forEach from 'lodash/forEach'
 import { Menu } from 'electron'
 import i18n from '../i18n'

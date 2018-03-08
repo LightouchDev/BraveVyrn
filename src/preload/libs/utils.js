@@ -1,5 +1,3 @@
-'use strict'
-
 import { oneshotListener } from '../../utils'
 
 let socket = require('socket.io-client')(`http://localhost:${BVport}`, {

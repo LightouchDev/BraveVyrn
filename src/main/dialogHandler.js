@@ -1,5 +1,3 @@
-'use strict'
-
 import { dialog } from 'electron'
 import { err } from '../utils'
 import i18n from '../i18n'

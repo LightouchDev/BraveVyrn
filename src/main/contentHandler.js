@@ -1,5 +1,3 @@
-'use strict'
-
 import { BrowserWindow, ipcMain, webContents } from 'electron'
 import { isDev, log, rootPath, site } from '../utils'
 

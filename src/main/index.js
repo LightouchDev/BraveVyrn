@@ -1,5 +1,3 @@
-'use strict'
-
 import './init'
 import './store'
 import '../i18n'

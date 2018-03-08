@@ -1,4 +1,3 @@
-'use strict'
 // import { log } from '../utils'
 
 export default {
