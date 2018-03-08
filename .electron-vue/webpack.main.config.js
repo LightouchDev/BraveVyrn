@@ -75,11 +75,4 @@ let mainConfig = {
   target: 'electron-main'
 }
 
-/**
- * Adjust mainConfig for production settings
- */
-if (process.env.NODE_ENV === 'production') {
-  delete mainConfig.externals
-}
-
 module.exports = mainConfig

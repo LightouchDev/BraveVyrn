@@ -9,7 +9,6 @@ const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 let preloadConfig = {
-  devtool: '#cheap-module-eval-source-map',
   entry: {
     preload: path.join(__dirname, '../src/preload/main.js')
   },
@@ -64,13 +63,6 @@ let preloadConfig = {
   },
   mode: process.env.NODE_ENV,
   target: 'web'
-}
-
-/**
- * Adjust preloadConfig for production settings
- */
-if (process.env.NODE_ENV === 'production') {
-  delete preloadConfig.devtool
 }
 
 module.exports = preloadConfig
