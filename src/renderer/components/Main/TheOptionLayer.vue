@@ -11,9 +11,12 @@
             name="option-select-language"
             v-model="config.language"
           >
-            <!-- FIXME: use for loop to list language -->
-            <option value="en_US">{{ $t('language.en_US') }}</option>
-            <option value="zh_TW">{{ $t('language.zh_TW') }}</option>
+            <!-- use for loop to list language -->
+            <option
+              v-for="(obj, key) in $i18n.messages"
+              :key="key"
+              :value="key"
+            >{{ $t('language.' + key) }}</option>
           </select>
         </div>
         <div
