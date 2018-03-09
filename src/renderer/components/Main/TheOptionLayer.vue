@@ -1,3 +1,4 @@
+<!-- FIXME: re-design this garbage -->
 <template>
   <div :class="optionOpen ? 'open' : ''">
     <div id="option-page">
@@ -169,15 +170,10 @@
 <script>
 import clone from 'lodash/clone'
 import urlParser from 'url-parser'
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-import { faListAlt, faTimesCircle } from '@fortawesome/fontawesome-free-regular'
 const { ipcRenderer } = chrome
 
 export default {
   name: 'TheOptionLayer',
-  components: {
-    FontAwesomeIcon
-  },
   data () {
     return {
       config: clone(this.$store.state.Config),
