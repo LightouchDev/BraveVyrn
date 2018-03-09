@@ -1,18 +1,28 @@
 'use strict'
 
-const serverAddress = 'http://spur.us.to'
+const { URL } = require('url')
+const io = require('socket.io-client')
+
+const server = new URL('http://spur.us.to/gbf')
+
+let socket
 
 // Setup and connect to gbf-raiders
-const socket = require('socket.io-client')(serverAddress, {
-  path: '/gbf/socket.io'
-})
+if (server.pathname === '/') {
+  socket = io(server.origin)
+} else {
+  socket = io(server.origin, {
+    path: server.pathname
+  })
+}
+
 const axios = require('axios')
 
 let wasDown = false
 let previousDown
 
 // simulate fetch api with axios.get
-axios.get(serverAddress + '/gbf/getraids')
+axios.get(server.href + '/getraids')
   .then(function (response) {
     // we can get response data with response.data
     // console.log(response)
