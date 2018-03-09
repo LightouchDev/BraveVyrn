@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import locale from 'os-locale'
 import { app } from 'electron'
+import assign from 'lodash/assign'
 import isUndefined from 'lodash/isUndefined'
 
 import i18n from '../../i18n'
@@ -14,7 +15,7 @@ const configPath = path.join(
   `${productName}.json`)
 
 const defaults = {
-  raider: 'http://spur.us.to/gbf',
+  raidFinderURL: 'http://spur.us.to/gbf',
   noThrottling: true,
   noHardwareAccel: false,
   // renderer defaults
@@ -35,7 +36,7 @@ if (isUndefined(i18n.messages[defaults.language])) {
 let config
 try {
   const fd = fs.openSync(configPath, 'r+')
-  config = JSON.parse(fs.readFileSync(fd, 'utf8'))
+  config = assign({}, defaults, JSON.parse(fs.readFileSync(fd, 'utf8')))
   fs.closeSync(fd)
 } catch (error) {
   if (error.code === 'ENOENT') {

@@ -66,7 +66,7 @@ store.subscribe(({type, payload}) => {
 // apply defaults
 ipcMain.on('ConfigDefaults', () => {
   log('[conf] set to defaults')
-  store.commit('Config/Update', defaults)
+  store.commit('Config/Replace', defaults)
 })
 
 export default store

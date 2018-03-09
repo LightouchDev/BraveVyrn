@@ -1,9 +1,16 @@
 import assign from 'lodash/assign'
+import forEach from 'lodash/forEach'
 
 const state = {}
 
 const mutations = {
   Update (state, payload) {
+    assign(state, payload)
+  },
+  Replace (state, payload) {
+    forEach(state, (value, key) => {
+      delete state[key]
+    })
     assign(state, payload)
   }
 }
