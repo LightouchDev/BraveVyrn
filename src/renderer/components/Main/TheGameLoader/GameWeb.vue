@@ -34,7 +34,10 @@ export default {
   computed: {
     siteUrl () {
       log('url is %s, path is %s', location.search, params.get('url'))
-      return params.get('url') || site
+      const url = localStorage.getItem('placeholder') === 'true'
+        ? ''
+        : params.get('url') || site
+      return url
     }
   },
   methods: {
