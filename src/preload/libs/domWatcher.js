@@ -36,16 +36,13 @@ function extractViewInfo (content) {
         baseSize: Number(match[2]),
         subMenuWidth: Number(match[2]) - Game.actualPexWidth
       }))
-
-      /* eslint-disable no-tabs */
-    } else if (content.indexOf('	deviceRatio') !== -1) {
+    } else if (/\tdeviceRatio/.test(content)) {
       // when view is not responsive
       log('login without autoResize')
 
       commit('GameView/UpdateWithPreset', assign(result, {
         zoom: Number(/^[ \t]+deviceRatio = ([\d.]+);/m.exec(content)[1])
       }))
-      /* eslint-enable no-tabs */
     } else {
       log(`can't extract info.`)
     }
@@ -65,15 +62,18 @@ function bruteWatcher () {
   let gameFound
   const findHead = setInterval(() => {
     if (!gameFound && window.Game && typeof window.Game === 'object') {
+      const { Game } = window
       gameFound = true
 
       extractViewInfo(window.displayInitialize.toString())
 
-      commit('Game/Update', window.Game)
-      if (window.Game.userId === 0) clearInterval(findHead)
+      commit('Game/Update', Game)
+      if (Game.userId === 0 || Game.ua.platformName() === 'notlogin') {
+        clearInterval(findHead)
+      }
     } else if (gameFound && document.querySelector('#submenu')) {
       const submenu = document.querySelector('#submenu')
-      new MutationObserver(mutations => {
+      new MutationObserver(() => {
         commit('GameView/Update', { subOpen: /open/.test(submenu.className) })
       }).observe(submenu, {attributes: true})
       clearInterval(findHead)
