@@ -1,5 +1,8 @@
 <template>
-  <div class="button">
+  <div
+    class="button"
+    :style="style"
+  >
     <font-awesome-icon
       :icon="icon"
       transform="grow-14 down-7"
@@ -17,12 +20,13 @@
   margin: 9px 0 9px;
   position: relative;
   @include gradient-text('linear-gradient(#c5f7f9, #94d4dd, #c5f7f9)', 'dark');
+  > * {
+    pointer-events: none;
+  }
 }
 .label {
   font-size: 11px;
   font-weight: bold;
-  letter-spacing: 0.75px;
-  pointer-events: none;
   position: absolute;
   left: 0;
   right: 0;
@@ -46,7 +50,12 @@ export default {
   props: [
     'icon',
     'label'
-  ]
+  ],
+  computed: {
+    style () {
+      return { zoom: this.$store.state.GameView.zoom }
+    }
+  }
 }
 </script>
 

@@ -34,8 +34,11 @@ export default {
         this.GameView.unknownPadding
       )
     },
+    dashWidth () {
+      return this.HostView.dashOpen ? this.HostView.dashWidth : 0
+    },
     windowWidth () {
-      const windowWidth = Math.trunc(this.GameView.zoom * this.windowBase)
+      const windowWidth = Math.trunc(this.GameView.zoom * this.windowBase + this.dashWidth)
       if (screen.availWidth < windowWidth && this.GameView.autoResize) {
         this.calcZoom(screen.availWidth / this.windowBase)
       }
@@ -43,7 +46,7 @@ export default {
     },
     windowBase () {
       return ((this.$store.state.Config.subHide && !this.GameView.subOpen) ? 0 : this.GameView.subMenuWidth) +
-        this.GameView.baseWidth * (this.GameView.subOpen ? 2 : 1) + (this.HostView.dashOpen ? this.HostView.dashWidth : 0)
+        this.GameView.baseWidth * (this.GameView.subOpen ? 2 : 1)
     },
     style () {
       this.setupWindow() // setup window when dom changed every time.

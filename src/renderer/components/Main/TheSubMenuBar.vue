@@ -1,6 +1,11 @@
 <template>
   <div class="container">
     <sub-menu-botton
+      :icon="dashboardIcon"
+      :label="dashboardText"
+      @click.native="dashboardToggle"
+    />
+    <sub-menu-botton
       :icon="optionIcon"
       :label="optionText"
       @click.native="optionToggle"
@@ -34,12 +39,22 @@ export default {
       return this.HostView.optionOpen ? faTimesCircle : faListAlt
     },
     optionText () {
-      return (this.HostView.optionOpen ? this.$t('common.close') : this.$t('common.option')).toUpperCase()
+      return (this.HostView.optionOpen ? this.$t('common.close') : this.$t('common.option'))
+    },
+    dashboardIcon () {
+      return faIdBadge
+    },
+    dashboardText () {
+      return (this.HostView.dashOpen ? this.$t('common.close') : this.$t('common.dashboard'))
+
     }
   },
   methods: {
     optionToggle () {
       this.$store.dispatch('HostView/Update', { optionOpen: !this.HostView.optionOpen })
+    },
+    dashboardToggle () {
+      this.$store.dispatch('HostView/Update', { dashOpen: !this.HostView.dashOpen })
     }
   }
 }

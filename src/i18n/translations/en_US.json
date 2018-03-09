@@ -59,7 +59,8 @@
     "ok": "OK",
     "cancel": "Cancel",
     "close": "Close",
-    "option": "Option"
+    "option": "Option",
+    "dashboard": "Dashboard"
   },
   "contextMenu": {
     "undo": "Undo",

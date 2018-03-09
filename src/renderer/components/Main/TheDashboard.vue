@@ -1,13 +1,16 @@
 <template>
-  <div>
+  <div class="container">
     <!-- <raid-finder/> -->
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.container {
+  z-index: 2;
+}
 </style>
 <script>
-import RaidFinder from './TheDashboard/RaidFinder'
+import RaidFinder from './TheDashboard/TheRaidFinder'
 
 export default {
   name: 'TheDashboard',

@@ -2,7 +2,7 @@ import assign from 'lodash/assign'
 
 const state = {
   dashOpen: false,
-  dashWidth: 180,
+  dashWidth: 320,
   optionOpen: false
 }
 

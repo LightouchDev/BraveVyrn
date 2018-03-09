@@ -9,6 +9,6 @@
 
 <script>
 export default {
-  name: 'RaidFinder'
+  name: 'TheRaidFinder'
 }
 </script>

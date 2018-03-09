@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
-    <the-dashboard id="the-dashboard" :style="[commonStyle, dashStyle]"/>
-    <the-sub-menu-bar id="the-sub-menu-bar" :style="[commonStyle, subBarStyle]"/>
+    <the-dashboard id="the-dashboard" :style="dashStyle"/>
+    <the-sub-menu-bar id="the-sub-menu-bar" :style="subBarStyle"/>
     <the-option-layer id="the-option-layer" :style="commonStyle"/>
     <the-game-loader id="the-game-loader"/>
   </div>
@@ -68,7 +68,8 @@ export default {
     },
     subBarStyle () {
       return {
-        left: this.GameView.baseWidth + (this.HostView.dashOpen ? this.HostView.dashWidth : 0) + 'px'
+        left: this.GameView.baseWidth * this.GameView.zoom +
+          (this.HostView.dashOpen ? this.HostView.dashWidth : 0) + 'px'
       }
     }
   },
