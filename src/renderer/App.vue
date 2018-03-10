@@ -13,6 +13,7 @@ export default {
 
 <style lang="scss">
 body {
+  background-color: black;
   width: 100%;
   height: 100%;
   margin: 0;

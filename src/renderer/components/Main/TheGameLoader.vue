@@ -30,12 +30,24 @@ export default {
     gameViewWidth () {
       return (
         Math.trunc(this.GameView.baseSize * this.GameView.zoom) +
-        this.GameView.sidePadding +
+        this.sidePadding +
         this.GameView.unknownPadding
       )
     },
     dashWidth () {
       return this.HostView.dashOpen ? this.HostView.dashWidth : 0
+    },
+    sidePadding () {
+      if (this.GameView.maintenance) {
+        // Fix window size
+        this.$nextTick(() =>
+          this.$bus.$emit('GameViewExecuteScript', 'window.fitScreenByZoom(window.displayInitialize())'))
+        return 0
+      }
+
+      return (this.GameView.isJssdkSideMenu && this.GameView.platformName === 'mobage')
+        ? this.GameView.sidePadding
+        : 0
     },
     windowWidth () {
       const windowWidth = Math.trunc(this.GameView.zoom * this.windowBase + this.dashWidth)
@@ -52,7 +64,7 @@ export default {
       this.setupWindow() // setup window when dom changed every time.
       return {
         'width': `${this.gameViewWidth}px`,
-        'margin-left': (this.GameView.isJssdkSideMenu && this.GameView.platformName === 'mobage') ? `-${this.GameView.sidePadding}px` : '0px'
+        'margin-left': `-${this.sidePadding}px`
       }
     }
   },

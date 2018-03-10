@@ -5,14 +5,14 @@ function extractViewInfo (content) {
   const { Game } = window
 
   log('start parse')
-  let result = {
-    baseWidth: Game.actualPexWidth / 2,
-    isJssdkSideMenu: Game.ua.isJssdkSideMenu(),
-    platformName: Game.ua.platformName()
-  }
 
   if (location.pathname === '/') {
     log('url correct!')
+    let result = {
+      baseWidth: Game.actualPexWidth / 2,
+      isJssdkSideMenu: Game.ua.isJssdkSideMenu(),
+      platformName: Game.ua.platformName()
+    }
 
     // Setup view when not log in
     if (Game.userId === 0 || Game.ua.platformName() === 'notlogin') {
@@ -47,13 +47,14 @@ function extractViewInfo (content) {
       log(`can't extract info.`)
     }
   }
+
   if (location.pathname === '/maintenance') {
     log('maintenance mode')
-    commit('GameView/UpdateWithPreset', assign(result, {
+    commit('GameView/UpdateWithPreset', {
       maintenance: true,
-      autoResize: true,
+      autoResize: false,
       baseSize: Number(/^[ \t]+var deviceRatio = window\.innerWidth \/ (\d+);$/m.exec(content)[1])
-    }))
+    })
   }
 }
 
@@ -68,7 +69,7 @@ function bruteWatcher () {
       extractViewInfo(window.displayInitialize.toString())
 
       commit('Game/Update', Game)
-      if (Game.userId === 0 || Game.ua.platformName() === 'notlogin') {
+      if (Game.userId === undefined || Game.userId === 0 || (Game.ua && Game.ua.platformName() === 'notlogin')) {
         clearInterval(findHead)
       }
     } else if (gameFound && document.querySelector('#submenu')) {
