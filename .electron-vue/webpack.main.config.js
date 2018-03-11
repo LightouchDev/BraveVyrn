@@ -75,4 +75,11 @@ let mainConfig = {
   target: 'electron-main'
 }
 
+/**
+ * build external package into app
+ */
+ if (process.env.NODE_ENV === 'production') {
+   delete mainConfig.externals
+ }
+
 module.exports = mainConfig
