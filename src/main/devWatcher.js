@@ -16,6 +16,3 @@ devSocket.on('preload', () => {
 })
 devSocket.on('renderer', () => app.emit('HostReload'))
 app.on('before-quit', () => { devSocket.disconnect() })
-
-// Require `main` process to boot app
-require('./index')

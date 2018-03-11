@@ -75,8 +75,6 @@ function startRenderer () {
 
 function startMain () {
   return new Promise((resolve, reject) => {
-    mainConfig.entry.main = [path.join(__dirname, '../src/main/index.dev.js')].concat(mainConfig.entry.main)
-
     const compiler = webpack(mainConfig)
 
     compiler.plugin('watch-run', (compilation, done) => {

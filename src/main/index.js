@@ -1,14 +1,7 @@
 import './init'
-import './store'
-import '../i18n'
-import './mainWindow'
-import './contentHandler'
-import './dialogHandler'
-import './gameViewHandler'
 
 import { app, session } from 'electron'
-import { extKey, extID, isDev, err, log } from '../utils'
-import contextMenu from './contextMenu'
+import { extKey, extID, log } from '../utils'
 
 /**
  * Init app
@@ -39,22 +32,6 @@ function init () {
     key: extKey
   }, 'component')
   session.defaultSession.extensions.enable(extID)
-}
-
-/**
- * Add context menu to each webContent
- */
-
-app.on('web-contents-created', (event, content) => {
-  content.on('context-menu', contextMenu(content))
-})
-
-/**
- * Handle common error
- */
-if (!isDev) {
-  process.on('unhandledRejection', err)
-  process.on('uncaughtException', err)
 }
 
 /**

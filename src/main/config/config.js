@@ -6,12 +6,10 @@ import assign from 'lodash/assign'
 import isUndefined from 'lodash/isUndefined'
 
 import i18n from '../../i18n'
-import { err, isDev, log, productName } from '../../utils'
+import { err, log, productName } from '../../utils'
 
-// ensure it's in right path
 const configPath = path.join(
   app.getPath('userData'),
-  isDev ? '.' : `../${productName}`,
   `${productName}.json`)
 
 const defaults = {

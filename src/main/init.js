@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { app } from 'electron'
-import { isDev, log, productName } from '../utils'
+import { err, isDev, log, productName } from '../utils'
 
 log('[app]  start!')
 
@@ -21,3 +21,21 @@ app.commandLine.appendSwitch('no-sandbox')
 
 // export electron api when dev
 isDev && (global.electron = require('electron'))
+
+/**
+ * Handle common error
+ */
+if (!isDev) {
+  process.on('unhandledRejection', err)
+  process.on('uncaughtException', err)
+}
+
+require('./store') // start state storage and import config
+require('./mainWindow') // setup main window
+require('./contentHandler') // setup webContents
+require('./dialogHandler') // setup dialogs
+require('./gameViewHandler') // setup gameview behavior
+
+if (isDev) {
+  require('./devWatcher') // setup for webpack hot reload
+}
