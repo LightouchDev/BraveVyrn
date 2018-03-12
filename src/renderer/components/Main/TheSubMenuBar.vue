@@ -31,6 +31,12 @@ export default {
   components: {
     SubMenuBotton
   },
+  data () {
+    return {
+      dashboardIcon: faIdBadge,
+      dashboardText: this.$t('common.dashboard')
+    }
+  },
   computed: {
     ...mapState({
       HostView: 'HostView' // fetch state.HostView into this.HostView
@@ -40,13 +46,6 @@ export default {
     },
     optionText () {
       return (this.HostView.optionOpen ? this.$t('common.close') : this.$t('common.option'))
-    },
-    dashboardIcon () {
-      return faIdBadge
-    },
-    dashboardText () {
-      return (this.HostView.dashOpen ? this.$t('common.close') : this.$t('common.dashboard'))
-
     }
   },
   methods: {

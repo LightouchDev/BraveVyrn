@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <!-- <raid-finder/> -->
+    <the-raid-finder />
   </div>
 </template>
 
@@ -10,12 +10,12 @@
 }
 </style>
 <script>
-import RaidFinder from './TheDashboard/TheRaidFinder'
+import TheRaidFinder from './TheDashboard/TheRaidFinder'
 
 export default {
   name: 'TheDashboard',
-  compoments: {
-    RaidFinder
+  components: {
+    TheRaidFinder
   }
 }
 </script>

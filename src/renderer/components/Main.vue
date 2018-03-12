@@ -1,6 +1,5 @@
 <template>
   <div id="wrapper">
-    <the-dashboard id="the-dashboard" :style="dashStyle"/>
     <the-sub-menu-bar id="the-sub-menu-bar" :style="subBarStyle"/>
     <the-option-layer id="the-option-layer" :style="commonStyle"/>
     <the-game-loader id="the-game-loader"/>
@@ -45,15 +44,10 @@ export default {
     TheOptionLayer: () => import(
       /* webpackChunkName: "TheOptionLayer" */
       './Main/TheOptionLayer'
-    ),
-    TheDashboard: () => import(
-      /* webpackChunkName: "TheDashboard" */
-      './Main/TheDashboard'
     )
   },
   computed: {
     ...mapState({
-      HostView: 'HostView', // fetch state.HostView into this.HostView
       GameView: 'GameView'  // fetch state.GameView into this.GameView
     }),
     commonStyle () {
@@ -61,15 +55,9 @@ export default {
         zoom: this.GameView.zoom
       }
     },
-    dashStyle () {
-      return {
-        width: this.HostView.dashOpen ? this.HostView.dashWidth + 'px' : 0
-      }
-    },
     subBarStyle () {
       return {
-        left: this.GameView.baseWidth * this.GameView.zoom +
-          (this.HostView.dashOpen ? this.HostView.dashWidth : 0) + 'px'
+        left: this.GameView.baseWidth * this.GameView.zoom + 'px'
       }
     }
   },

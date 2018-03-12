@@ -24,8 +24,7 @@ export default {
   },
   computed: {
     ...mapState({
-      GameView: 'GameView', // fetch state.GameView into this.GameView
-      HostView: 'HostView'  // fetch state.HostView into this.HostView
+      GameView: 'GameView' // fetch state.GameView into this.GameView
     }),
     gameViewWidth () {
       return (
@@ -33,9 +32,6 @@ export default {
         this.sidePadding +
         this.GameView.unknownPadding
       )
-    },
-    dashWidth () {
-      return this.HostView.dashOpen ? this.HostView.dashWidth : 0
     },
     sidePadding () {
       if (this.GameView.maintenance) {
@@ -50,7 +46,7 @@ export default {
         : 0
     },
     windowWidth () {
-      const windowWidth = Math.trunc(this.GameView.zoom * this.windowBase + this.dashWidth)
+      const windowWidth = Math.trunc(this.GameView.zoom * this.windowBase)
       if (screen.availWidth < windowWidth && this.GameView.autoResize) {
         this.calcZoom(screen.availWidth / this.windowBase)
       }
