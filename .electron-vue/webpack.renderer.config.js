@@ -11,6 +11,27 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+function sassExtractLoader(isSass) {
+  return ExtractTextPlugin.extract({
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          minimize: process.env.NODE_ENV === 'production'
+        }
+      },
+      {
+        loader: 'sass-loader',
+        options: {
+          data: '@import "./src/renderer/globals";',
+          indentedSyntax: isSass
+        }
+      }
+    ],
+    fallback: 'vue-style-loader'
+  })
+}
+
 let rendererConfig = {
   entry: {
     renderer: path.join(__dirname, '../src/renderer/main.js')
@@ -41,41 +62,8 @@ let rendererConfig = {
           options: {
             loaders: {
               i18n: '@kazupon/vue-i18n-loader',
-              sass: ExtractTextPlugin.extract({
-                use: [
-                  {
-                    loader: 'css-loader',
-                    options: {
-                      minimize: process.env.NODE_ENV === 'production'
-                    }
-                  },
-                  {
-                    loader: 'sass-loader',
-                    options: {
-                      data: '@import "./src/renderer/globals";',
-                      indentedSyntax: true
-                    }
-                  }
-                ],
-                fallback: 'vue-style-loader'
-              }),
-              scss: ExtractTextPlugin.extract({
-                use: [
-                  {
-                    loader: 'css-loader',
-                    options: {
-                      minimize: process.env.NODE_ENV === 'production'
-                    }
-                  },
-                  {
-                    loader: 'sass-loader',
-                    options: {
-                      data: '@import "./src/renderer/globals";'
-                    }
-                  }
-                ],
-                fallback: 'vue-style-loader'
-              })
+              sass: sassExtractLoader(true),
+              scss: sassExtractLoader(false)
             },
           }
         }
