@@ -33,6 +33,7 @@ if (!isDev) {
 require('./store') // start state storage and import config
 require('./mainWindow') // setup main window
 require('./contentHandler') // setup webContents
+require('./contextMenu') // setup context menu
 require('./dialogHandler') // setup dialogs
 require('./gameViewHandler') // setup gameview behavior
 

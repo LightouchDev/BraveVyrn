@@ -1,6 +1,6 @@
 import { dialog } from 'electron'
 import { err } from '../utils'
-import i18n from '../i18n'
+import i18n from './lib/i18nWrapper'
 
 // FIXME: using html dialog instead
 

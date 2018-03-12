@@ -14,7 +14,7 @@
           >
             <!-- use for loop to list language -->
             <option
-              v-for="(obj, key) in $i18n.messages"
+              v-for="(key) in $i18n.langs"
               :key="key"
               :value="key"
             >{{ $t('language.' + key) }}</option>
@@ -61,6 +61,7 @@
             </label>
           </div>
         </div>
+        <!-- FIXME: add "don't proxy resources to cdn" -->
         <div
           id="option-proxy"
           class="option-group"
@@ -236,7 +237,7 @@ export default {
         this.$bus.$emit('GameViewReload')
       }
       this.$store.commit('Config/Update', this.config)
-      this.$i18n.locale = this.config.language
+      this.$i18n.loadLang(this.config.language)
     }
   }
 }

@@ -3,9 +3,7 @@ import path from 'path'
 import locale from 'os-locale'
 import { app } from 'electron'
 import assign from 'lodash/assign'
-import isUndefined from 'lodash/isUndefined'
 
-import i18n from '../../i18n'
 import { err, log, productName } from '../../utils'
 
 const configPath = path.join(
@@ -23,11 +21,6 @@ const defaults = {
   raids: [],
   gameViewConfig: {},
   subHide: false
-}
-
-// check default translation exist
-if (isUndefined(i18n.messages[defaults.language])) {
-  defaults.language = 'en_US'
 }
 
 // read saved config

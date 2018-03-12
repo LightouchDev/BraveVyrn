@@ -1,14 +1,5 @@
-import { app, BrowserWindow, ipcMain, webContents } from 'electron'
+import { BrowserWindow, ipcMain, webContents } from 'electron'
 import { isDev, log, rootPath, site } from '../utils'
-import contextMenu from './contextMenu'
-
-/**
- * Add context menu to each webContent
- */
-
-app.on('web-contents-created', (event, content) => {
-  content.on('context-menu', contextMenu(content))
-})
 
 /**
  * Handle popups

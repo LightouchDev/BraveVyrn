@@ -3,15 +3,10 @@ import assign from 'lodash/assign'
 import forEach from 'lodash/forEach'
 import isUndefined from 'lodash/isUndefined'
 
-import i18n from '../../i18n'
 import { log, noop, site } from '../../utils'
 import { defaults, config } from './config'
 
 const options = {
-  language (args) {
-    log('[i18n] old lang: %s, new lang: %s', i18n.locale, args)
-    i18n.locale = args
-  },
   noThrottling (args) {
     if (args && !app.isReady()) {
       app.commandLine.appendSwitch('disable-renderer-backgrounding')
