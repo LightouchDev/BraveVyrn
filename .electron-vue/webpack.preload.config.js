@@ -32,7 +32,12 @@ let preloadConfig = {
       }
     ]
   },
-  plugins: [],
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.PROCESS_TYPE': '"preload"',
+      'process.platform': `"${process.platform}"`
+    })
+  ],
   optimization: {
     minimizer: [
       new UglifyJsPlugin({

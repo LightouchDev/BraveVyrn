@@ -92,7 +92,8 @@ let rendererConfig = {
       }
     ]),
     new webpack.DefinePlugin({
-      'process.env.PROCESS_TYPE': '"renderer"'
+      'process.env.PROCESS_TYPE': '"renderer"',
+      'process.platform': `"${process.platform}"`
     })
   ],
   optimization: {
@@ -112,7 +113,7 @@ let rendererConfig = {
   },
   output: {
     filename: '[name].js',
-    chunkFilename: '[name].chunk.js',
+    chunkFilename: 'chunk.[name].js',
     path: path.join(__dirname, '../dist/muon')
   },
   resolve: {

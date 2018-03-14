@@ -65,7 +65,8 @@ let mainConfig = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.PROCESS_TYPE': '"main"'
+      'process.env.PROCESS_TYPE': '"main"',
+      'process.platform': `"${process.platform}"`
     })
   ],
   resolve: {
