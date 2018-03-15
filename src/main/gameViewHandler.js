@@ -27,7 +27,7 @@ function setup (content) {
   content.on('did-navigate', () => {
     if (BVport) {
       preloadInject(content, () =>
-        process.emit('toHostView', ['hostLog', ['preload executed']]))
+        process.emit('toHostView', ['hostLog', ['[Main] preload executed']]))
     } else {
       // the flag that show we have inject pending but socket.io server is not ready.
       injectRequired = true
@@ -80,7 +80,7 @@ httpServer.listen(0, '127.0.0.1', () => {
   // execute preload script if required
   if (injectRequired) {
     preloadInject(gameView, () =>
-      process.emit('toHostView', ['hostLog', ['preload executed']]))
+      process.emit('toHostView', ['hostLog', ['[Main] preload executed']]))
     injectRequired = false
   }
 
@@ -114,7 +114,10 @@ ipcMain.once('GameViewChanged', () => {
       log('[view] purchase request detected')
       gameView.executeScriptInTab(
         extID,
-        'Game.submenu.mainView.switchCurrent(Game.submenu.mainView.state.current)',
+        `Game.submenu.contentView
+          ? Game.submenu.mainView.toggleSubmenu()
+          : Game.submenu.mainView.switchCurrent(Game.submenu.mainView.state.current)
+        `,
         { mainWorld: true }
       )
     }

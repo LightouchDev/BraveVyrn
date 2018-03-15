@@ -22,7 +22,6 @@ $standardBlack: #1f1f1f;
       top: 0; right: 0; bottom: 0; left: 0;
       
       background: unquote($gradient);
-      pointer-events: none;
     }
 
     @if ($bg == 'light') {

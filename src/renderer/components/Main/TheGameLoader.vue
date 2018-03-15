@@ -1,5 +1,5 @@
 <template>
-  <div :style="style">
+  <div id="the-game-loader" :style="style">
     <game-web/>
     <overlay/>
   </div>

@@ -41,7 +41,7 @@ export default (lang) => {
           `./translations/${lang}.json`
         ).then(messages => {
           ipcRenderer.send('LocaleUpdate', messages)
-          this.setLocaleMessage(lang, messages.default)
+          this.setLocaleMessage(lang, messages)
           loadedLang.push(lang)
           this.locale = lang
           return lang

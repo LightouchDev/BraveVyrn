@@ -4,7 +4,7 @@ import get from 'lodash/get'
 export let locale
 
 function t (key) {
-  return get(locale, key)
+  return get(locale, key, key)
 }
 
 ipcMain.on('LocaleUpdate', (event, messages) => {
