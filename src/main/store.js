@@ -27,14 +27,15 @@ store.subscribe((mutation, state) => {
 
 ipcMain.on('vuex-connect', (event) => {
   const win = event.sender
-  log('[vuex] new vuex client: %s', win.id)
+  const winId = win.id
+  log('[vuex] new vuex client: %s', winId)
 
   win.on('destroyed', () => {
-    clients[win.id] = null
-    delete clients[win.id]
+    clients[winId] = null
+    delete clients[winId]
   })
 
-  clients[win.id] = win
+  clients[winId] = win
   event.returnValue = store.state
 })
 
