@@ -1,7 +1,7 @@
 // steal from https://github.com/vuejs/vuex/issues/92#issuecomment-212012430
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { BrowserWindow, ipcMain } from 'electron'
+import { ipcMain } from 'electron'
 import { log, err } from '../utils'
 
 import modules from '../store/modules'
@@ -26,10 +26,15 @@ store.subscribe((mutation, state) => {
 })
 
 ipcMain.on('vuex-connect', (event) => {
-  let winId = BrowserWindow.fromWebContents(event.sender).id
-  log('[vuex] new vuex client: %s', winId)
+  const win = event.sender
+  log('[vuex] new vuex client: %s', win.id)
 
-  clients[winId] = event.sender
+  win.on('destroyed', () => {
+    clients[win.id] = null
+    delete clients[win.id]
+  })
+
+  clients[win.id] = win
   event.returnValue = store.state
 })
 
