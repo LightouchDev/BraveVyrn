@@ -1,4 +1,6 @@
 import EventEmitter from 'eventemitter3'
+import assign from 'lodash/assign'
+import clone from 'lodash/clone'
 import { oneshotListener } from '../../utils'
 
 /**
@@ -35,4 +37,11 @@ function commit (...args) {
  */
 const eventBus = new EventEmitter()
 
-export { commit, eventBus, log, send, sendToHost }
+/**
+ * console object
+ */
+const { assert, error, time, timeEnd, log: clog, warn } = window.console
+const console = clone(window.console)
+assign(console, { assert, error, time, timeEnd, log: clog, warn })
+
+export { commit, console, eventBus, log, send, sendToHost }
