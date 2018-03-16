@@ -1,9 +1,11 @@
 <template>
   <div id="the-dashboard">
     <the-tab-bar/>
-    <the-main-page v-show="typeCheck('main')"/>
-    <the-raid-finder v-show="typeCheck('raid')"/>
-    <the-option-page v-show="typeCheck('option')"/>
+    <div class="scrollable">
+      <the-main-page v-show="typeCheck('main')"/>
+      <the-raid-finder v-show="typeCheck('raid')"/>
+      <the-option-page v-show="typeCheck('option')"/>
+    </div>
   </div>
 </template>
 
@@ -11,7 +13,22 @@
 #the-dashboard {
   height: 100%;
   .scrollable {
-    overflow-y: scroll;
+    height: calc(100% - 36px);
+    overflow-y: overlay;
+    &::-webkit-scrollbar {
+      width: 3px;
+      background: #ccc;
+      opacity: 0.3;
+    }
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+    &::-webkit-scrollbar-piece {
+      background: #eee;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #666;
+    }
   }
 }
 </style>
