@@ -1,4 +1,12 @@
 {
+  "submenu": {
+    "dashboard": "儀表板",
+    "tab": {
+      "main": "主頁",
+      "raidFinder": "多人戰搜尋",
+      "options": "選項"
+    }
+  },
   "option": {
     "language": {
       "title": "語言"
@@ -36,11 +44,6 @@
         "clearAll": "清除所有資料"
       }
     },
-    "button": {
-      "default": "預設值",
-      "apply": "套用",
-      "close": "關閉"
-    },
     "alert": {
       "clearStorage": {
         "text": "確定要清除",
@@ -48,7 +51,7 @@
         "cache": "@:option.alert.clearStorage.text 快取內容？",
         "all": "@:option.alert.clearStorage.text 所有資料？"
       },
-      "setDefault": "這會重設本頁所有設定至預設值，您確定嗎？"
+      "setDefault": "這會重設本頁所有設定，您確定嗎？"
     }
   },
   "language": {
@@ -56,11 +59,12 @@
     "zh_TW": "傳統中文（台灣）"
   },
   "common": {
-    "ok": "確定",
+    "apply": "套用",
     "cancel": "取消",
     "close": "關閉",
-    "option": "選項",
-    "dashboard": "儀表板"
+    "default": "預設",
+    "ok": "確定",
+    "option": "選項"
   },
   "contextMenu": {
     "undo": "復原",

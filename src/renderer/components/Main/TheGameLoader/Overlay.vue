@@ -1,5 +1,5 @@
 <template>
-  <div id="overlay" :style="style">
+  <div id="overlay">
     <div id="placeholder" v-show="isPlaceholder">
       <div
         id="side-bar"
@@ -12,9 +12,13 @@
           :style="mainViewStyle"
         >Main view</div>
         <div
-          id="submenu"
-          :style="subMenuStyle"
-        >Submenu</div>
+          id="submenubar"
+          :style="subMenuBarStyle"
+        >Submenu bar</div>
+        <div
+          id="main-view"
+          :style="mainViewStyle"
+        >Submenu view</div>
       </div>
     </div>
     <div
@@ -29,7 +33,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #overlay {
   width: 100%;
   height: 100vh;
@@ -40,11 +44,9 @@
   overflow: hidden;
   position: absolute;
   > div {
-    position: absolute;
     pointer-events: auto;
   }
   #placeholder {
-    left: 0;
     #side-bar {
       height: 100vh;
       background-color: aqua;
@@ -60,10 +62,10 @@
       #main-view {
         background-color: aquamarine;
       }
-      #submenu {
+      #submenubar {
         writing-mode: vertical-rl;
         color: $standardWhite;
-        background-color: $standardBlack;
+        background-color: green;
       }
     }
   }
@@ -82,13 +84,6 @@ export default {
     elements () {
       return this.Overlay.elements
     },
-    style () {
-      const width =
-        (this.isMbga ? this.GameView.sidePadding : 0) +
-        (this.GameView.baseWidth + this.GameView.subMenuWidth) *
-        this.GameView.zoom
-      return { width: width + 'px' }
-    },
     zoom () {
       return { zoom: this.GameView.zoom }
     },
@@ -104,7 +99,7 @@ export default {
     mainViewStyle () {
       return { width: this.GameView.baseWidth + 'px' }
     },
-    subMenuStyle () {
+    subMenuBarStyle () {
       return { width: this.GameView.subMenuWidth + 'px' }
     }
   },

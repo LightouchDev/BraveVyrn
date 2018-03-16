@@ -13,7 +13,7 @@
 import { mapState } from 'vuex'
 
 import debug from 'debug'
-import { extID, log, productName, site } from '../../../../utils'
+import { extID, log, productName, site } from '@/../utils'
 import { setTimeout } from 'timers';
 const { ipcRenderer } = chrome
 
@@ -66,6 +66,16 @@ export default {
     // register global event
     this.$bus.$on('GameViewReload', this.reload)
     this.$bus.$on('GameViewExecuteScript', this.execScript)
+    this.$bus.$on('GameViewToggleSubmenu', () => {
+      this.execScript(`
+      Game.submenu.contentView
+        ? Game.submenu.mainView.toggleSubmenu()
+        : Game.submenu.mainView.switchCurrent(Game.submenu.mainView.state.current)
+      `)
+      if (localStorage.placeholder === 'true') {
+        this.$store.dispatch('GameView/Update', { subOpen: !this.$store.state.GameView.subOpen })
+      }
+    })
   }
 }
 </script>

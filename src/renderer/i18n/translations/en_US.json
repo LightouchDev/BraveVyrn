@@ -1,4 +1,12 @@
 {
+  "submenu": {
+    "dashboard": "Dashboard",
+    "tab": {
+      "main": "Main",
+      "raidFinder": "Raid Finder",
+      "options": "Options"
+    }
+  },
   "option": {
     "language": {
       "title": "Language"
@@ -48,7 +56,7 @@
         "cache": "@:option.alert.clearStorage.text cache?",
         "all": "@:option.alert.clearStorage.text all?"
       },
-      "setDefault": "It would reset EVERYTHING on this page to defaults, are you sure?"
+      "setDefault": "It would reset EVERYTHING on this page, are you sure?"
     }
   },
   "language": {
@@ -56,11 +64,12 @@
     "zh_TW": "Chinese Traditional"
   },
   "common": {
-    "ok": "OK",
+    "apply": "Apply",
     "cancel": "Cancel",
     "close": "Close",
-    "option": "Option",
-    "dashboard": "Dashboard"
+    "default": "Default",
+    "ok": "OK",
+    "option": "Option"
   },
   "contextMenu": {
     "undo": "Undo",

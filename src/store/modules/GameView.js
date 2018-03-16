@@ -12,7 +12,9 @@ import assign from 'lodash/assign'
  *  baseWidth: the basic size for single game width.
  *  unknownPadding: extra width that I don't know the purpose.
  *  subOpen: submenu is opened or not.
+ *  subType: current submenu page type.
  *  subMenuWidth: submenu width.
+ *  dashTab: the current tab of dashboard
  */
 const defaults = {
   zoom: 1.5,
@@ -30,7 +32,9 @@ const state = assign({
   isJssdkSideMenu: false,
   platformName: '',
   baseWidth: 320,
-  subOpen: false
+  subOpen: false,
+  subType: '',
+  dashTab: 'main'
 }, defaults)
 
 const mutations = {

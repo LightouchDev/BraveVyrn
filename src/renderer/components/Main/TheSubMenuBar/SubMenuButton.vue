@@ -1,34 +1,33 @@
 <template>
-  <div
-    class="button"
-    :style="style"
-  >
+  <div id="subMenuButton">
     <font-awesome-icon
       :icon="icon"
       transform="grow-14 down-7"
     />
-    <div class="label">{{ label }}</div>
+    <div id="subMenuLabel">{{ label }}</div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.button {
+<style lang="scss">
+#subMenuButton {
   z-index: 2;
   color: #c5f7f9;
   width: 64px;
   height: 45px;
   margin: 9px 0 9px;
   position: relative;
+  text-align: center;
   user-select: none;
   @include gradient-text('linear-gradient(#c5f7f9, #94d4dd, #c5f7f9)', 'dark');
   > * {
     pointer-events: none;
   }
 }
-.label {
+#subMenuLabel {
   font-size: 11px;
   font-weight: bold;
   position: absolute;
+  line-height: 1;
   left: 0;
   right: 0;
   bottom: 0;
@@ -46,12 +45,7 @@ export default {
   props: [
     'icon',
     'label'
-  ],
-  computed: {
-    style () {
-      return { zoom: this.$store.state.GameView.zoom }
-    }
-  }
+  ]
 }
 </script>
 

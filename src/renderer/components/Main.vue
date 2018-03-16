@@ -1,8 +1,8 @@
 <template>
   <div id="wrapper">
-    <the-sub-menu-bar id="the-sub-menu-bar" :style="subBarStyle"/>
-    <the-option-layer id="the-option-layer" :style="commonStyle"/>
-    <the-game-loader id="the-game-loader"/>
+    <the-game-loader/>
+    <the-sub-menu-bar/>
+    <the-sub-layer/>
   </div>
 </template>
 
@@ -12,14 +12,9 @@ body {
 }
 
 #wrapper {
-  display: flex;
-  > div {
-    flex-shrink: 0;
+  > * {
+    position: fixed;
   }
-}
-
-#the-dashboard {
-  background: $standardBlack;
 }
 </style>
 
@@ -41,25 +36,10 @@ export default {
       /* webpackChunkName: "TheSubMenuBar" */
       './Main/TheSubMenuBar'
     ),
-    TheOptionLayer: () => import(
-      /* webpackChunkName: "TheOptionLayer" */
-      './Main/TheOptionLayer'
+    TheSubLayer: () => import(
+      /* webpackChunkName: "TheSubLayer" */
+      './Main/TheSubLayer'
     )
-  },
-  computed: {
-    ...mapState({
-      GameView: 'GameView'  // fetch state.GameView into this.GameView
-    }),
-    commonStyle () {
-      return {
-        zoom: this.GameView.zoom
-      }
-    },
-    subBarStyle () {
-      return {
-        left: this.GameView.baseWidth * this.GameView.zoom + 'px'
-      }
-    }
   },
   // inject hotkey when dom mounted
   mounted () {
