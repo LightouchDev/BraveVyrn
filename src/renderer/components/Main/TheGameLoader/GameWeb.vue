@@ -83,6 +83,5 @@ export default {
 <style lang="scss">
 #game-web{
   height: 100vh;
-  z-index: 1;
 }
 </style>

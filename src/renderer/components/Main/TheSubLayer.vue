@@ -10,7 +10,6 @@
 
 <style lang="scss">
 #the-sub-layer {
-  position: fixed;
   height: 100%;
   background-color: black;
   overflow: hidden;

@@ -223,18 +223,14 @@ export default {
 
 #the-option-page {
   color: $standardWhite;
-  /*
-  text-shadow:
-    -1px -1px 2px $standardBlack,
-     1px -1px 2px $standardBlack,
-    -1px  1px 2px $standardBlack,
-     1px  1px 2px $standardBlack;
-  */
   white-space: nowrap;
   padding: 0 10px;
   .option-group {
     font-size: 12px;
-    margin: 15px 0px;
+    padding-bottom: 15px;
+    &:first-child {
+      padding: 15px 0px;
+    }
     .option-groupTitle {
       margin: 4px 0px;
       font-size: 18px;

@@ -9,7 +9,7 @@
 
 <style lang="scss">
 #the-dashboard {
-  z-index: 2;
+  height: 100%;
   .scrollable {
     overflow-y: scroll;
   }

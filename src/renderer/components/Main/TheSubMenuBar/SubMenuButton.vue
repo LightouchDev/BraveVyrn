@@ -10,7 +10,6 @@
 
 <style lang="scss">
 #subMenuButton {
-  z-index: 2;
   color: #c5f7f9;
   width: 64px;
   height: 45px;
