@@ -79,6 +79,7 @@
     "@fortawesome/fontawesome-free-regular": "^5.0.8",
     "@fortawesome/vue-fontawesome": "^0.0.22",
     "debug": "^3.1.0",
+    "eventemitter3": "^3.0.1",
     "get-port": "^3.2.0",
     "lodash": "^4.17.5",
     "os-locale": "^2.1.0",
