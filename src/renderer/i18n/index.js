@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import includes from 'lodash/includes'
 // import forEach from 'lodash/forEach'
 
 const { ipcRenderer } = chrome
@@ -35,7 +36,7 @@ export default (lang) => {
 
   i18n.loadLang = function (lang) {
     if (this.locale !== lang) {
-      if (!loadedLang.includes(lang)) {
+      if (!includes(loadedLang, lang)) {
         return import(
           /* webpackChunkName: "lang-[request]" */
           `./translations/${lang}.json`
@@ -53,13 +54,12 @@ export default (lang) => {
     return Promise.resolve(lang)
   }
 
-  // set it if current lang is not fallbackLocale
-  if (lang !== fallbackLocale) {
-    i18n.loadLang(lang)
-  } else {
-    // send back the fallback locale
-    ipcRenderer.send('LocaleUpdate', messages[fallbackLocale])
+  // set it if initial lang is not available
+  if (!includes(langs, lang)) {
+    lang = fallbackLocale
   }
+
+  i18n.loadLang(lang)
 
   return i18n
 }
