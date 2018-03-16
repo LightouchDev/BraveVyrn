@@ -1,11 +1,11 @@
 <template>
   <div id="the-main-page">
-    <span>under construction</span>
+    <div>under construction</div>
   </div>
 </template>
 
 <style lang="scss">
-#the-main-page {
+#the-main-page div {
   color: white;
   text-align: center;
   margin-top: 50%;

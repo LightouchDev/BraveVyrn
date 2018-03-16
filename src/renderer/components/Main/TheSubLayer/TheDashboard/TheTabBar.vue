@@ -8,7 +8,7 @@
     <tab-button
       :icon="RFIcon"
       :label="$t('submenu.tab.raidFinder')"
-      @click.native="switchTab('raidFinder')"
+      @click.native="switchTab('raid')"
     />
     <tab-button
       :icon="optionIcon"

@@ -1,9 +1,14 @@
 <template>
-  <div>
-    
+  <div id="the-raid-finder">
+    <div>under construction</div>
   </div>
 </template>
 <style lang="scss">
+#the-raid-finder div {
+  color: white;
+  text-align: center;
+  margin-top: 50%;
+}
 </style>
 
 <script>
