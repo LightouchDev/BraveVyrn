@@ -32,11 +32,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  text-shadow:
-    -1px -1px 2px $standardBlack,
-     1px -1px 2px $standardBlack,
-    -1px  1px 2px $standardBlack,
-     1px  1px 2px $standardBlack;
   @include gradient-text('linear-gradient(#c5f7f9, #94d4dd, #c5f7f9)', 'dark');
 }
 </style>
