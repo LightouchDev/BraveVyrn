@@ -19,6 +19,7 @@
   height: 45px;
   margin: 9px 0 9px;
   position: relative;
+  user-select: none;
   @include gradient-text('linear-gradient(#c5f7f9, #94d4dd, #c5f7f9)', 'dark');
   > * {
     pointer-events: none;

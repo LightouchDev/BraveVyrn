@@ -36,6 +36,7 @@
   bottom: 0;
   z-index: 1;
   pointer-events: none;
+  user-select: none;
   overflow: hidden;
   position: absolute;
   > div {
