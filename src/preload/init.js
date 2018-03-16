@@ -1,8 +1,6 @@
-import assign from 'lodash/assign'
-import { isDev, oneshotListener, noop } from '../utils'
-import { log } from './lib/utils'
-
-import './lib/workaround'
+// import forEach from 'lodash/forEach'
+import { oneshotListener, noop } from '../utils'
+import { console, log } from './lib/utils'
 
 log('[EVENT] preload start!')
 
@@ -20,8 +18,7 @@ oneshotListener(window, 'load', () => {
   window.alert = _alert
 })
 
-if (isDev) {
-  const { assert, error, time, timeEnd, log, warn } = console
-  oneshotListener(window, 'load', () =>
-    assign(console, { assert, error, time, timeEnd, log, warn }))
-}
+window.addEventListener('error', (...args) => console.error(...args))
+
+require('./lib/workaround')
+require('./lib/presetJobs')
