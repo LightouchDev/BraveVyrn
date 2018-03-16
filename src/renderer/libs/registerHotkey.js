@@ -1,5 +1,5 @@
 import forEach from 'lodash/forEach'
-import { log } from '../../utils'
+import { log } from '@/../utils'
 
 const keyTable = {
   Command: 'metaKey',
@@ -63,7 +63,7 @@ function registerHotkey (hotkeys, callback) {
 }
 
 // Register on keyup event
-registerHotkey.startListen = () => {
+registerHotkey.listen = () => {
   log('hotkeys: %o', registeredSet)
   window.onkeydown = function (event) {
     const keys = concatKeys(event, event.key.toUpperCase())
