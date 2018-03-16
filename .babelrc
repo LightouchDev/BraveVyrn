@@ -12,7 +12,7 @@
     "main": {
       "presets": [
         ["env", {
-            "targets": { "node": 7 }
+          "targets": { "node": 7 }
         }],
         "stage-0"
       ]
@@ -20,7 +20,11 @@
     "renderer": {
       "presets": [
         ["env", {
-          "modules": false
+          "targets": {
+            "chrome": 65
+          },
+          "modules": false,
+          "useBuiltIns": "usage"
         }],
         "stage-0"
       ]
@@ -28,7 +32,11 @@
     "preload": {
       "presets": [
         ["env", {
-          "modules": false
+          "targets": {
+            "chrome": 65
+          },
+          "modules": false,
+          "useBuiltIns": "usage"
         }],
         "stage-0"
       ]
