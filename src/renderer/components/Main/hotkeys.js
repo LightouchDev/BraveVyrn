@@ -41,7 +41,7 @@ export default function () {
   // H: hide submenu
   registerHotkey('H', () => {
     const { subHide } = this.$store.state.Config
-    if (!subHide && this.GameView.subOpen) {
+    if (!subHide && this.$store.state.GameView.subOpen) {
       this.$bus.$emit('GameViewToggleSubmenu')
     }
     this.$store.dispatch('Config/Update', {
