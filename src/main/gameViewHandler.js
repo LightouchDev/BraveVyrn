@@ -4,17 +4,17 @@ import { ipcMain, webContents, session } from 'electron'
 import { err, extID, isDev, log, noop, rootPath, site } from '../utils'
 import store from './store'
 
-function updatePreload () {
-  preloadScript = fs.readFileSync(path.join(rootPath, 'preload.js'), 'utf8')
+function loadPreload () {
+  preloadScript = `
+  const BVpath = '${BVpath}';
+  const BVport = ${BVport};
+  ${fs.readFileSync(path.join(rootPath, 'preload.js'), 'utf8')}
+`
   isDev && (global.preloadScript = preloadScript)
 }
 
 function preloadInject (content, callback) {
-  content.executeScriptInTab(extID, `
-    const BVpath = '${BVpath}';
-    const BVport = ${BVport};
-    ${preloadScript}
-  `, {
+  content.executeScriptInTab(extID, preloadScript, {
     mainWorld: true,
     runAt: 'document_start'
   })
@@ -38,10 +38,7 @@ function setup (content) {
 /**
  * gameView preload script polyfill
  */
-let gameView, BVport, socket, injectRequired
-
-let preloadScript = fs.readFileSync(path.join(rootPath, 'preload.js'), 'utf8')
-isDev && (global.preloadScript = preloadScript)
+let gameView, BVport, socket, injectRequired, preloadScript
 
 // create socket.io to simulate ipc message, random path, port for security
 const BVpath = '/' + require('crypto').randomBytes(32).toString('hex')
@@ -74,8 +71,9 @@ httpServer.listen(0, '127.0.0.1', () => {
       log('[http] Socket.io client "%s" disconnect: %s', client.id, reason))
   })
 
-  // save port
+  // save port and load preload script
   BVport = httpServer.address().port
+  loadPreload()
 
   // execute preload script if required
   if (injectRequired) {
@@ -138,4 +136,4 @@ ipcMain.on('GameViewClearStorageData', () =>
   gameView.session.clearStorageData(() =>
     gameView.loadURL(site)))
 
-export { updatePreload }
+export { loadPreload }
