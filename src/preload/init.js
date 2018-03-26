@@ -1,6 +1,6 @@
 // import forEach from 'lodash/forEach'
 import { oneshotListener, noop } from '../utils'
-import { console, log } from './lib/utils'
+import { log } from './lib/utils'
 
 log('[EVENT] preload start!')
 
@@ -17,8 +17,6 @@ oneshotListener(window, 'load', () => {
   // restore alert
   window.alert = _alert
 })
-
-window.addEventListener('error', (...args) => console.error(...args))
 
 require('./lib/workaround')
 require('./lib/presetJobs')
