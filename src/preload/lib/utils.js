@@ -44,4 +44,64 @@ const { assert, error, time, timeEnd, log: clog, warn } = window.console
 const console = clone(window.console)
 assign(console, { assert, error, time, timeEnd, log: clog, warn })
 
-export { commit, console, eventBus, log, send, sendToHost }
+/**
+ * @typedef taskFunction
+ * @type {function}
+ * @var {function} stop - stop loop
+ * @var {function} next - stop current loop, and continue
+ */
+
+/**
+ * @typedef taskObject
+ * @type {Object}
+ * @property {string} name - the job name
+ * @property {taskFunction} job - the job that require to execute.
+ * @property {taskFunction} [fallback] - the job when timeout.
+ * @property {string|number} [timeout=10000] - timeout condition, millisecond or event name
+ */
+
+/**
+ * Brutally execute task array by order
+ * @param {taskObject|taskObject[]} task
+ */
+function brutalExecutor (task) {
+  function _promiseExecutor ({name, job, fallback, timeout = 10000}) {
+    return new Promise((resolve, reject) => {
+      let whileLoop = null
+      const command = {
+        stop () {
+          task = []
+          clearInterval(whileLoop)
+        },
+        next () {
+          resolve()
+          clearInterval(whileLoop)
+        }
+      }
+
+      whileLoop = setInterval(job.bind(command), 0)
+
+      // setup fallback condition when timeout (if any)
+      fallback = typeof fallback === 'function'
+        ? fallback.bind(command)
+        : resolve
+
+      typeof timeout === 'string'
+        ? oneshotListener(window, timeout, fallback)
+        : setTimeout(fallback, timeout)
+    }).then(() => {
+      log(`[BrutalExecutor] job '%s' done`, name)
+      // recursive call to simulate foreach loop
+      task.length && _promiseExecutor(task.shift())
+    }).catch((error) =>
+      log(`[BrutalExecutor] job '%s' error: %o`, name, error))
+  }
+
+  if (!Array.isArray(task)) {
+    task = [task]
+  }
+
+  _promiseExecutor(task.shift())
+}
+
+export { brutalExecutor, commit, console, eventBus, log, send, sendToHost }

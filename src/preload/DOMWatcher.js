@@ -1,26 +1,11 @@
-import { commit, eventBus, log } from './lib/utils'
+import { brutalExecutor, commit, eventBus, log } from './lib/utils'
 import viewInfoParser from './lib/viewInfoParser'
-
-/**
- * Brutally execute task array by order,
- * return true to finish current task.
- * @param {function[]} task - function array
- */
-function brutalExecutor (task) {
-  const whileLoop = setInterval(() => {
-    const command = {
-      stop () { clearInterval(whileLoop) }
-    }
-    task.length
-      ? task[0](command) && task.shift()
-      : command.stop()
-  }, 0)
-}
 
 // Initial a watcher to get game info
 eventBus.once('head-ready', () => {
-  brutalExecutor([
-    function ({stop}) {
+  brutalExecutor([{
+    name: 'viewInfoParser',
+    job () {
       if (window.Game) {
         // extract game view info
         const { Game } = window
@@ -29,27 +14,36 @@ eventBus.once('head-ready', () => {
 
         // stop watcher if we aren't login
         if (!Game.userId || (Game.ua && Game.ua.platformName() === 'notlogin')) {
-          stop()
+          this.stop()
         }
-        return true
+        this.next()
       }
     },
-    function () {
+    fallback () {
+      this.stop()
+      // FIXME: apply zoom manually here.
+    },
+    timeout: 'load'
+  }, {
+    name: 'submenuObserver',
+    job () {
       const submenu = document.querySelector('#submenu')
       if (submenu) {
         new MutationObserver(() => {
           commit('GameView/Update', { subOpen: /open/.test(submenu.className) })
         }).observe(submenu, {attributes: true})
-        return true
-      }
-    },
-    function () {
-      if (window.$) {
-        eventBus.emit('jquery-ready')
-        return true
+        this.next()
       }
     }
-  ])
+  }, {
+    name: 'jQueryWatcher',
+    job () {
+      if (window.$) {
+        eventBus.emit('jquery-ready')
+        this.next()
+      }
+    }
+  }])
 })
 
 // Initial a watcher to wait head ready
