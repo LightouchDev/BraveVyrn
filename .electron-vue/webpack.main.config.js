@@ -80,7 +80,7 @@ let mainConfig = {
  * build external package into app
  */
  if (process.env.NODE_ENV === 'production') {
-   delete mainConfig.externals
+   mainConfig.externals = ['uws']
  }
 
 module.exports = mainConfig
