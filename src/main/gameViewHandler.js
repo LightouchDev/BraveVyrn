@@ -126,6 +126,9 @@ ipcMain.once('GameViewChanged', () => {
 ipcMain.on('GameViewOpenDevTools', () =>
   gameView.openDevTools({ mode: 'detach' }))
 
+ipcMain.on('GameViewReload', () =>
+  gameView.reload())
+
 ipcMain.on('GameViewReloadIgnoringCache', () =>
   gameView.reloadIgnoringCache())
 

@@ -7,7 +7,7 @@ export default function () {
   }
 
   function gameViewRefresh () {
-    this.$bus.$emit('GameViewReload')
+    ipcRenderer.send('GameViewReload')
   }
 
   function gameViewRefreshIgnoringCache () {
