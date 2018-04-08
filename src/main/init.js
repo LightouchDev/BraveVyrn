@@ -36,6 +36,7 @@ require('./contentHandler') // setup webContents
 require('./contextMenu') // setup context menu
 require('./dialogHandler') // setup dialogs
 require('./gameViewHandler') // setup gameview behavior
+require('./ajaxProcessor') // setup game ajax processor
 
 if (isDev) {
   require('./devWatcher') // setup for webpack hot reload
