@@ -9,3 +9,9 @@ eventBus.once('head-ready', () => {
 
   scrollBarStyle = null
 })
+
+// prevent stop music play
+eventBus.once('head-ready', () => {
+  window.addEventListener('blur', event =>
+    event.stopImmediatePropagation())
+})
